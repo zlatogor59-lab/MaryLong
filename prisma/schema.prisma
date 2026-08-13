@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  consultant
+  client
+  @@map("user_role")
+}
+enum UserStatus {
+  invited
+  active
+  suspended
+  revoked
+  @@map("user_status")
+}
+enum ClientStatus {
+  prospect
+  active
+  archived
+  @@map("client_status")
+}
+enum AssignmentStatus {
+  active
+  ended
+  @@map("assignment_status")
+}
+enum FormSchemaId {
+  forms_v1_49_columns
+  forms_v2_76_columns
+  @@map("form_schema_id")
+}
+enum FormSourceType {
+  csv
+  google_sheets
+  manual_test
+  @@map("form_source_type")
+}
+enum ImportStatus {
+  received
+  verified
+  blocked
+  accepted
+  @@map("import_status")
+}
+enum ConsentStatus {
+  verified
+  not_verified
+  declined
+  @@map("consent_status")
+}
+enum AuditDecision {
+  ALLOW
+  DENY
+  SUCCESS
+  FAILURE
+  @@map("audit_decision")
+}
+
+model User {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  emailNormalized String @unique @map("email_normalized")
+  displayName String @map("display_name")
+  role UserRole
+  status UserStatus @default(invited)
+  authSubject String @unique @map("auth_subject")
+  sessionRevokedAt DateTime? @map("session_revoked_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  version Int @default(1)
+  @@map("users")
+}
+
+model Client {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerUserId String? @unique @map("owner_user_id") @db.Uuid
+  status ClientStatus @default(prospect)
+  createdBy String @map("created_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  version Int @default(1)
+  @@map("clients")
+}
+
+model ClientIdentity {
+  clientId String @id @map("client_id") @db.Uuid
+  fullNameCiphertext Bytes @map("full_name_ciphertext")
+  phoneCiphertext Bytes? @map("phone_ciphertext")
+  telegramCiphertext Bytes? @map("telegram_ciphertext")
+  sex String?
+  birthDate DateTime? @map("birth_date") @db.Date
+  heightCm Decimal? @map("height_cm") @db.Decimal(5,2)
+  weightKg Decimal? @map("weight_kg") @db.Decimal(6,2)
+  waistCm Decimal? @map("waist_cm") @db.Decimal(5,2)
+  hipsCm Decimal? @map("hips_cm") @db.Decimal(5,2)
+  calfCm Decimal? @map("calf_cm") @db.Decimal(5,2)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  version Int @default(1)
+  @@map("client_identity")
+}
+
+model ConsultantClientAssignment {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  consultantUserId String @map("consultant_user_id") @db.Uuid
+  status AssignmentStatus
+  startedAt DateTime @default(now()) @map("started_at") @db.Timestamptz
+  endedAt DateTime? @map("ended_at") @db.Timestamptz
+  assignedBy String @map("assigned_by") @db.Uuid
+  reasonCode String @map("reason_code")
+  @@map("consultant_client_assignments")
+}
+
+model FormSubmission {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  schemaId FormSchemaId @map("schema_id")
+  sourceType FormSourceType @map("source_type")
+  sourceResponseId String? @map("source_response_id")
+  sourceSubmittedAt DateTime? @map("source_submitted_at") @db.Timestamptz
+  headerFingerprint String @map("header_fingerprint")
+  payloadCiphertext Bytes @map("payload_ciphertext")
+  payloadHash String @map("payload_hash")
+  idempotencyKey String @unique @map("idempotency_key")
+  importStatus ImportStatus @default(received) @map("import_status")
+  blockCode String? @map("block_code")
+  consentStatus ConsentStatus @map("consent_status")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@map("form_submissions")
+}
+
+model AuditEvent {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz
+  requestId String @map("request_id")
+  actorUserId String? @map("actor_user_id") @db.Uuid
+  actorRole UserRole? @map("actor_role")
+  action String
+  resourceType String @map("resource_type")
+  resourceId String? @map("resource_id") @db.Uuid
+  clientId String? @map("client_id") @db.Uuid
+  decision AuditDecision
+  reasonCode String @map("reason_code")
+  ipHash String? @map("ip_hash")
+  userAgentHash String? @map("user_agent_hash")
+  @@map("audit_events")
+}

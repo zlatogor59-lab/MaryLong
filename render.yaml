@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: nutrikontur-consultant
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm prisma:generate && pnpm build
+    startCommand: pnpm start:prod
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: PAYLOAD_ENCRYPTION_KEY_BASE64
+        sync: false
+      - key: AUTH_ISSUER
+        value: https://dev-i0wsvisovzcfoniu.eu.auth0.com/
+      - key: AUTH_CLIENT_ID
+        value: 6p4VNyxernQqO5YZREH9EKbzhkQxq7dY
+      - key: AUTH_AUDIENCE
+        value: https://api.consultant-app.local
+      - key: AUTH_REDIRECT_URI
+        sync: false

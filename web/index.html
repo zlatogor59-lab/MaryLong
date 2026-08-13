@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Рабочее место консультанта</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/workspace.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Рабочее место консультанта">
+      <span class="brand-mark">Н</span>
+      <span><strong>НутриКонтур</strong><small>Рабочее место консультанта</small></span>
+    </a>
+    <div class="security-chip"><span></span> Защищённый локальный контур</div>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <p class="eyebrow">Импорт анкеты</p>
+      <h1>Проверьте источник<br>перед началом анализа</h1>
+      <p>Загрузите один CSV-файл. Сервер проверит структуру, согласие и повторы, не сохраняя анкету в браузере.</p>
+    </section>
+
+    <section class="workspace" aria-label="Загрузка анкеты">
+      <aside class="steps" aria-label="Этапы импорта">
+        <ol>
+          <li class="active"><span>1</span><div><strong>Источник</strong><small>Клиент и CSV-файл</small></div></li>
+          <li><span>2</span><div><strong>Проверка</strong><small>Схема и согласие</small></div></li>
+          <li><span>3</span><div><strong>Решение</strong><small>Принять или отклонить</small></div></li>
+        </ol>
+        <div class="privacy-note">
+          <strong>Принцип минимизации</strong>
+          <p>В интерфейсе отображаются только технические результаты проверки — без текста анкеты.</p>
+        </div>
+      </aside>
+
+      <div class="panel">
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+        <section class="session-box auth-box" aria-label="Сеанс консультанта">
+          <div><strong id="session-title">Проверяем сеанс…</strong><small id="session-meta">Токен не сохраняется в браузере</small></div>
+          <button id="login-button" class="secondary session-action" type="button" hidden>Войти</button>
+          <button id="logout-button" class="secondary session-action" type="button" hidden>Выйти</button>
+        </section>
+
+        <form id="upload-form" novalidate>
+          <div class="field">
+            <label for="client">Клиент</label>
+            <select id="client" name="client" required disabled>
+              <option value="">Загрузка доступных клиентов…</option>
+            </select>
+            <small>Список формируется сервером только из ваших активных назначений.</small>
+          </div>
+
+          <div class="field">
+            <span class="label">CSV-файл</span>
+            <label class="dropzone" id="dropzone" for="csv-file">
+              <input id="csv-file" name="file" type="file" accept=".csv,text/csv" required>
+              <span class="upload-icon" aria-hidden="true">↑</span>
+              <strong id="file-title">Выберите файл или перетащите сюда</strong>
+              <small id="file-meta">CSV · одна анкета · не более 2 МБ</small>
+            </label>
+          </div>
+
+          <button class="primary" id="submit-button" type="submit" disabled>
+            <span>Проверить анкету</span><span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <section id="preview" class="preview" hidden aria-labelledby="preview-title">
+          <div class="preview-head">
+            <div><p class="eyebrow">Результат проверки</p><h2 id="preview-title">Анкета готова к решению</h2></div>
+            <span id="status-badge" class="badge"></span>
+          </div>
+          <dl class="result-grid">
+            <div><dt>Схема источника</dt><dd id="schema-value">—</dd></div>
+            <div><dt>Согласие</dt><dd id="consent-value">—</dd></div>
+            <div><dt>Статус</dt><dd id="status-value">—</dd></div>
+            <div><dt>Код блокировки</dt><dd id="block-value">—</dd></div>
+          </dl>
+          <div class="actions">
+            <button class="secondary danger" id="reject-button" type="button">Отклонить</button>
+            <button class="primary compact" id="accept-button" type="button">Принять анкету</button>
+          </div>
+        </section>
+
+        <section class="history" aria-labelledby="history-title">
+          <div class="history-head"><div><p class="eyebrow">Последние загрузки</p><h2 id="history-title">История анкет</h2></div><button id="refresh-history" class="secondary" type="button" disabled>Обновить</button></div>
+          <p id="history-empty" class="history-empty">Выберите клиента, чтобы увидеть последние загрузки.</p>
+          <div id="history-list" class="history-list" hidden></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>

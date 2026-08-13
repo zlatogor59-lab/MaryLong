@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: consultant_app
+      POSTGRES_USER: consultant
+      POSTGRES_PASSWORD: local-development-only
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U consultant -d consultant_app"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - consultant_pg_data:/var/lib/postgresql/data
+volumes:
+  consultant_pg_data:
