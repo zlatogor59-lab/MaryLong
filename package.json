@@ -8,6 +8,7 @@
     "build": "nest build",
     "start": "nest start",
     "start:prod": "prisma migrate deploy && node dist/main.js",
+    "smoke:production": "node scripts/smoke-production.mjs",
     "start:dev": "nest start --watch",
     "test": "vitest run",
     "test:watch": "vitest",
