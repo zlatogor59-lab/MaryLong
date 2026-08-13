@@ -12,5 +12,5 @@ export const identifySchema = (headers: string[]): SchemaId | null => schemas.ge
 export const consentVerified = (schemaId: SchemaId, values: unknown[]): boolean => {
   if (schemaId === 'forms_v1_49_columns') return false;
   const value = String(values[49] ?? '').trim().toLocaleLowerCase('uk-UA');
-  return ['так', 'да', 'yes', 'погоджуюсь', 'согласен', 'согласна'].includes(value);
+  return ['так', 'да', 'yes', 'погоджуюсь', 'згоден', 'згодна', 'согласен', 'согласна', 'согласен(на)'].includes(value);
 };
