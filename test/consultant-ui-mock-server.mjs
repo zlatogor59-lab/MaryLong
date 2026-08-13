@@ -32,6 +32,19 @@ createServer(async (request, response) => {
     submission_id:submissionId,schema_id:'nutrition-questionnaire/v2',consent_status:'verified',status:submissionStatus,
     block_code:submissionStatus==='blocked'?'CONSULTANT_REJECTED':null,created_at:'2026-08-13T10:00:00.000Z',
   }] });
+  if (request.method === 'GET' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/analysis`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    return sendJson(response, 200, {
+      submission_id:submissionId,
+      schema_id:'forms_v2_76_columns',
+      disclaimer:'Показаны исходные ответы клиента. Автоматические медицинские выводы не формируются.',
+      sections:[
+        {key:'profile',title:'Исходные данные',fields:[{key:'height_cm',label:'Рост, см',value:'170'},{key:'weight_kg',label:'Масса, кг',value:'70'}]},
+        {key:'goals',title:'Цели и контекст',fields:[{key:'main_goal',label:'Главная цель',value:'Синтетическая проверка рабочего обзора'}]},
+        {key:'food_day',title:'Питание за день',fields:[{key:'lunch',label:'Обед',value:'Синтетические данные: гречка, овощи'}]},
+      ],
+    });
+  }
   if (request.method === 'POST' && url.pathname === `/api/v1/submissions/${submissionId}/accept`) {
     request.resume();
     return request.on('end', () => { submissionStatus='accepted'; sendJson(response, 200, {
