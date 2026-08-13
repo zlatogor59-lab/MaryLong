@@ -21,5 +21,7 @@ services:
         value: 6p4VNyxernQqO5YZREH9EKbzhkQxq7dY
       - key: AUTH_AUDIENCE
         value: https://api.consultant-app.local
+      - key: AUTH_JWKS_URI
+        value: https://dev-i0wsvisovzcfoniu.eu.auth0.com/.well-known/jwks.json
       - key: AUTH_REDIRECT_URI
         sync: false
