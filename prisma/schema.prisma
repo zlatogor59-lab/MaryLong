@@ -135,6 +135,31 @@ model FormSubmission {
   @@map("form_submissions")
 }
 
+model ConsultantNote {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @unique @map("submission_id") @db.Uuid
+  authorUserId String @map("author_user_id") @db.Uuid
+  bodyCiphertext Bytes @map("body_ciphertext")
+  version Int @default(1)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("consultant_notes")
+}
+
+model ConsultantNoteVersion {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  noteId String @map("note_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @map("submission_id") @db.Uuid
+  authorUserId String @map("author_user_id") @db.Uuid
+  bodyCiphertext Bytes @map("body_ciphertext")
+  version Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([noteId, version])
+  @@map("consultant_note_versions")
+}
+
 model AuditEvent {
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz

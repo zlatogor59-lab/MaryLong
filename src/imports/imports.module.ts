@@ -15,7 +15,10 @@ import { AuthorizationModule } from '../authorization/authorization.module';
 import { AuditModule } from '../audit/audit.module';
 import { SubmissionAnalysisController } from './submission-analysis.controller';
 import { SubmissionAnalysisService } from './submission-analysis.service';
+import { ConsultantNoteController } from './consultant-note.controller';
+import { ConsultantNoteService } from './consultant-note.service';
+import { ConsultantNoteRepository } from './consultant-note.repository';
 
-@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
+@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
   PrismaSubmissionStore,{provide:SubmissionStore,useExisting:PrismaSubmissionStore}] })
 export class ImportsModule {}

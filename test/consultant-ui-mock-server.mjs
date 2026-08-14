@@ -9,6 +9,8 @@ const clientId = '11111111-1111-4111-8111-111111111111';
 const submissionId = '22222222-2222-4222-8222-222222222222';
 const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8' };
 let submissionStatus = 'verified';
+let noteBody = '';
+let noteVersion = 0;
 
 const sendJson = (response, status, body) => {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -43,6 +45,19 @@ createServer(async (request, response) => {
         {key:'goals',title:'Цели и контекст',fields:[{key:'main_goal',label:'Главная цель',value:'Синтетическая проверка рабочего обзора'}]},
         {key:'food_day',title:'Питание за день',fields:[{key:'lunch',label:'Обед',value:'Синтетические данные: гречка, овощи'}]},
       ],
+    });
+  }
+  if (request.method === 'GET' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/note`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    return sendJson(response, 200, { submission_id:submissionId,body:noteBody,version:noteVersion,updated_at:noteVersion?'2026-08-14T10:00:00.000Z':null });
+  }
+  if (request.method === 'PATCH' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/note`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    let raw='';request.setEncoding('utf8');request.on('data',chunk=>raw+=chunk);return request.on('end',()=>{
+      const expected=Number(String(request.headers['if-match']||'').replace(/[^0-9]/g,''));
+      if(expected!==noteVersion)return sendJson(response,409,{error:{code:'CONSULTANT_NOTE_VERSION_CONFLICT'}});
+      noteBody=JSON.parse(raw).body.trim();noteVersion+=1;
+      sendJson(response,200,{submission_id:submissionId,body:noteBody,version:noteVersion,updated_at:'2026-08-14T10:00:00.000Z'});
     });
   }
   if (request.method === 'POST' && url.pathname === `/api/v1/submissions/${submissionId}/accept`) {
