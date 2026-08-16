@@ -11,7 +11,7 @@ import { SubmissionStore } from './submission.store';
 type FieldDefinition = { key:string; label:string; index:number };
 type SectionDefinition = { key:string; title:string; fields:FieldDefinition[] };
 
-// Explicit allowlist for v2. Direct identifiers, consent, referral and uploaded files are intentionally absent.
+// Explicit allowlist for v2/v3. Direct identifiers (including optional email), consent, referral and uploaded files are intentionally absent.
 const V2_SECTIONS:SectionDefinition[] = [
   {key:'profile',title:'Исходные данные',fields:[
     {key:'height_cm',label:'Рост, см',index:3},{key:'weight_kg',label:'Масса, кг',index:4},{key:'age_years',label:'Возраст, лет',index:5},
@@ -50,14 +50,15 @@ export class SubmissionAnalysisService {
     if(!record || record.clientId!==clientId) throw unavailable('SUBMISSION_NOT_FOUND');
     this.policy.requireActiveAssignment(user,await this.assignments.activeConsultant(record.clientId));
     if(record.status!=='accepted') throw unavailable('SUBMISSION_NOT_ACCEPTED');
-    if(record.schemaId!=='forms_v2_76_columns') throw new AppError('ANALYSIS_SCHEMA_UNSUPPORTED',HttpStatus.UNPROCESSABLE_ENTITY);
+    if(record.schemaId!=='forms_v2_76_columns'&&record.schemaId!=='forms_v3_77_columns') throw new AppError('ANALYSIS_SCHEMA_UNSUPPORTED',HttpStatus.UNPROCESSABLE_ENTITY);
     let plaintext:Uint8Array;
     try { plaintext=await this.crypto.decrypt(record.payloadCiphertext); }
     catch { throw new AppError('PAYLOAD_INTEGRITY_FAILED',HttpStatus.CONFLICT); }
     if(createHash('sha256').update(plaintext).digest('hex')!==record.payloadHash) throw new AppError('PAYLOAD_INTEGRITY_FAILED',HttpStatus.CONFLICT);
     let values:unknown;
     try { values=JSON.parse(Buffer.from(plaintext).toString('utf8')); } catch { throw new AppError('PAYLOAD_INVALID',HttpStatus.CONFLICT); }
-    if(!Array.isArray(values)||values.length!==76) throw new AppError('PAYLOAD_INVALID',HttpStatus.CONFLICT);
+    const expectedWidth=record.schemaId==='forms_v3_77_columns'?77:76;
+    if(!Array.isArray(values)||values.length!==expectedWidth) throw new AppError('PAYLOAD_INVALID',HttpStatus.CONFLICT);
     const sections=V2_SECTIONS.map(section=>({...section,fields:section.fields.map(field=>({...field,value:normalise(values[field.index])})).filter(field=>field.value!==null)}))
       .filter(section=>section.fields.length>0).map(section=>({key:section.key,title:section.title,fields:section.fields.map(({index:_,...field})=>field)}));
     await this.audit.record({requestId,actorUserId:user.id,actorRole:user.role,action:'submission.analysis.read',resourceType:'form_submission',resourceId:id,

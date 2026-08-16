@@ -5,8 +5,9 @@ import { headerFingerprint } from './schema-registry';
 
 const v1 = Array.from({ length: 49 }, (_, i) => `v1-${i}`);
 const v2 = Array.from({ length: 76 }, (_, i) => `v2-${i}`);
+const v3 = [...v2, 'Электронная почта, если вы ею пользуетесь'];
 // Test fixtures use the approved workbook fingerprints without embedding personal or medical values.
-const fingerprints = new Map([[headerFingerprint(v1), '614e57efdc0bb2c30eb93081df529c57a5727b15e4e9adda5a72e72949b370dc'], [headerFingerprint(v2), '23af83387ff42b95cda5edb10302cad3e22bf9360112bf7ca669b798c51cda17']]);
+const fingerprints = new Map([[headerFingerprint(v1), '614e57efdc0bb2c30eb93081df529c57a5727b15e4e9adda5a72e72949b370dc'], [headerFingerprint(v2), '23af83387ff42b95cda5edb10302cad3e22bf9360112bf7ca669b798c51cda17'], [headerFingerprint(v3), 'fdfd7bea02712855877826c866c2dfada36c6cd87ce72a92339d1c57c5ec5f4f']]);
 
 class MemoryStore extends SubmissionStore {
   records: SubmissionRecord[] = [];
@@ -26,7 +27,8 @@ import * as registry from './schema-registry';
 const identifyFixture = (headers: string[]) => {
   const mapped = fingerprints.get(headerFingerprint(headers));
   return mapped === '614e57efdc0bb2c30eb93081df529c57a5727b15e4e9adda5a72e72949b370dc' ? 'forms_v1_49_columns' :
-    mapped === '23af83387ff42b95cda5edb10302cad3e22bf9360112bf7ca669b798c51cda17' ? 'forms_v2_76_columns' : registry.identifySchema(headers);
+    mapped === '23af83387ff42b95cda5edb10302cad3e22bf9360112bf7ca669b798c51cda17' ? 'forms_v2_76_columns' :
+    mapped === 'fdfd7bea02712855877826c866c2dfada36c6cd87ce72a92339d1c57c5ec5f4f' ? 'forms_v3_77_columns' : registry.identifySchema(headers);
 };
 
 describe('import preview security contract', () => {
@@ -42,6 +44,11 @@ describe('import preview security contract', () => {
     expect((await preview(v2, values, 'k1')).status).toBe('verified');
   });
   it('IMP-002 exact v1 without consent is blocked', async () => expect((await preview(v1, Array(49).fill('synthetic'), 'k2')).blockCode).toBe('PRIVACY_NOT_VERIFIED'));
+  it('IMP-009 exact v3 accepts a blank optional email', async () => {
+    const values = Array(77).fill('synthetic'); values[49] = 'Да'; values[76] = '';
+    const record = await preview(v3, values, 'k9');
+    expect(record.schemaId).toBe('forms_v3_77_columns'); expect(record.status).toBe('verified');
+  });
   it('IMP-003 changed header is unknown', async () => { const bad=[...v2]; bad[3]+='!'; await expect(service.preview({clientId:'c',headers:bad,values:Array(76),idempotencyKey:'k3',encryptPayload:encrypt})).rejects.toThrow('SCHEMA_UNKNOWN'); });
   it('IMP-004 swapped semantic columns are unknown', async () => { const bad=[...v2]; [bad[24],bad[30]]=[bad[30],bad[24]]; await expect(service.preview({clientId:'c',headers:bad,values:Array(76),idempotencyKey:'k4',encryptPayload:encrypt})).rejects.toThrow('SCHEMA_UNKNOWN'); });
   it('IMP-005 duplicate source id returns conflict', async () => { const a=Array(76).fill('a');a[49]='Да'; await preview(v2,a,'k5','source-1'); const b=Array(76).fill('b');b[49]='Да'; await expect(preview(v2,b,'k6','source-1')).rejects.toThrow('DUPLICATE_SUBMISSION'); });

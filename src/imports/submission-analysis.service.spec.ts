@@ -32,4 +32,14 @@ describe('submission analysis',()=>{
   it('hides a non-accepted submission',async()=>await expect(service({status:'verified'}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('RESOURCE_UNAVAILABLE'));
   it('denies a consultant without active assignment',async()=>await expect(service({assigned:null}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('RESOURCE_UNAVAILABLE'));
   it('rejects a payload with a changed hash',async()=>await expect(service({hash:'bad'}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('PAYLOAD_INTEGRITY_FAILED'));
+  it('supports v3 without exposing the optional email identifier',async()=>{
+    const v3Values=[...values,'synthetic@example.test'];
+    const v3Plaintext=Buffer.from(JSON.stringify(v3Values));
+    const v3Record={...record,schemaId:'forms_v3_77_columns' as const,payloadHash:createHash('sha256').update(v3Plaintext).digest('hex'),payloadCiphertext:v3Plaintext};
+    const instance=new SubmissionAnalysisService({findById:async()=>v3Record} as never,{activeConsultant:async()=>user.id} as never,
+      new AuthorizationPolicy(),{decrypt:async()=>v3Plaintext} as never,{record:async()=>undefined} as never);
+    const result=await instance.get(record.id,clientId,user,'req_v3');
+    expect(result.schema_id).toBe('forms_v3_77_columns');
+    expect(JSON.stringify(result)).not.toContain('synthetic@example.test');
+  });
 });

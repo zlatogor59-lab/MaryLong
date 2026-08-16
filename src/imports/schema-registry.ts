@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
 
-export type SchemaId = 'forms_v1_49_columns' | 'forms_v2_76_columns';
+export type SchemaId = 'forms_v1_49_columns' | 'forms_v2_76_columns' | 'forms_v3_77_columns';
 const schemas = new Map<string, SchemaId>([
   ['614e57efdc0bb2c30eb93081df529c57a5727b15e4e9adda5a72e72949b370dc', 'forms_v1_49_columns'],
   ['23af83387ff42b95cda5edb10302cad3e22bf9360112bf7ca669b798c51cda17', 'forms_v2_76_columns'],
+  ['fdfd7bea02712855877826c866c2dfada36c6cd87ce72a92339d1c57c5ec5f4f', 'forms_v3_77_columns'],
 ]);
 
 export const headerFingerprint = (headers: string[]) => createHash('sha256').update(JSON.stringify(headers), 'utf8').digest('hex');
