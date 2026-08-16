@@ -56,6 +56,12 @@ enum ConsentStatus {
   declined
   @@map("consent_status")
 }
+enum ConsultationBookingStatus {
+  pending
+  scheduled
+  needs_reminder
+  @@map("consultation_booking_status")
+}
 enum AuditDecision {
   ALLOW
   DENY
@@ -159,6 +165,35 @@ model ConsultantNoteVersion {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   @@unique([noteId, version])
   @@map("consultant_note_versions")
+}
+
+model ConsultationBooking {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @unique @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  status ConsultationBookingStatus @default(pending)
+  scheduledAt DateTime? @map("scheduled_at") @db.Timestamptz
+  contactNoteCiphertext Bytes @map("contact_note_ciphertext")
+  version Int @default(1)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("consultation_bookings")
+}
+
+model ConsultationBookingVersion {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookingId String @map("booking_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  status ConsultationBookingStatus
+  scheduledAt DateTime? @map("scheduled_at") @db.Timestamptz
+  contactNoteCiphertext Bytes @map("contact_note_ciphertext")
+  version Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([bookingId, version])
+  @@map("consultation_booking_versions")
 }
 
 model AuditEvent {

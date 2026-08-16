@@ -18,7 +18,10 @@ import { SubmissionAnalysisService } from './submission-analysis.service';
 import { ConsultantNoteController } from './consultant-note.controller';
 import { ConsultantNoteService } from './consultant-note.service';
 import { ConsultantNoteRepository } from './consultant-note.repository';
+import { ConsultationBookingController } from './consultation-booking.controller';
+import { ConsultationBookingService } from './consultation-booking.service';
+import { ConsultationBookingRepository } from './consultation-booking.repository';
 
-@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
+@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController,ConsultationBookingController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,ConsultationBookingService,ConsultationBookingRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
   PrismaSubmissionStore,{provide:SubmissionStore,useExisting:PrismaSubmissionStore}] })
 export class ImportsModule {}

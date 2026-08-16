@@ -40,3 +40,5 @@
 - `GET /api/v1/clients/{client_id}/submissions/{submission_id}/note` возвращает только внутреннюю заметку назначенному консультанту и только для принятой анкеты.
 - `PATCH /api/v1/clients/{client_id}/submissions/{submission_id}/note` требует `If-Match`, шифрует текст и атомарно создаёт неизменяемую версию с аудитом.
 - Внутренняя заметка не изменяет `form_submission`, не публикуется клиенту и не включается в audit/log/error payload.
+- `GET/PATCH /api/v1/clients/{client_id}/submissions/{submission_id}/booking` хранит внутренний статус записи (`pending`, `scheduled`, `needs_reminder`), согласованное время и зашифрованную заметку о связи; изменения версионируются и аудируются.
+- Блок записи доступен только назначенному консультанту и только для принятой анкеты; автоматические сообщения клиенту не отправляются.

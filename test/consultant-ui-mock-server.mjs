@@ -11,6 +11,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=u
 let submissionStatus = 'verified';
 let noteBody = '';
 let noteVersion = 0;
+let booking = { status:'pending',scheduled_at:null,contact_note:'',version:0,updated_at:null };
 
 const sendJson = (response, status, body) => {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -58,6 +59,19 @@ createServer(async (request, response) => {
       if(expected!==noteVersion)return sendJson(response,409,{error:{code:'CONSULTANT_NOTE_VERSION_CONFLICT'}});
       noteBody=JSON.parse(raw).body.trim();noteVersion+=1;
       sendJson(response,200,{submission_id:submissionId,body:noteBody,version:noteVersion,updated_at:'2026-08-14T10:00:00.000Z'});
+    });
+  }
+  if (request.method === 'GET' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/booking`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    return sendJson(response, 200, { submission_id:submissionId,...booking });
+  }
+  if (request.method === 'PATCH' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/booking`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    let raw='';request.setEncoding('utf8');request.on('data',chunk=>raw+=chunk);return request.on('end',()=>{
+      const expected=Number(String(request.headers['if-match']||'').replace(/[^0-9]/g,''));
+      if(expected!==booking.version)return sendJson(response,409,{error:{code:'CONSULTATION_BOOKING_VERSION_CONFLICT'}});
+      const input=JSON.parse(raw);booking={...input,version:booking.version+1,updated_at:'2026-08-16T10:00:00.000Z'};
+      sendJson(response,200,{submission_id:submissionId,...booking});
     });
   }
   if (request.method === 'POST' && url.pathname === `/api/v1/submissions/${submissionId}/accept`) {
