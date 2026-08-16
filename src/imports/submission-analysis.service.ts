@@ -33,9 +33,9 @@ const V2_SECTIONS:SectionDefinition[] = [
   ]},
   {key:'wellbeing',title:'Самочувствие — ответы клиента',fields:[
     {key:'systems',label:'Беспокоящие системы организма',index:41},{key:'appetite_peak',label:'Пик аппетита',index:42},{key:'energy_mood',label:'Энергия и настроение',index:43},
-    {key:'confirmed_conditions',label:'Подтверждённые состояния',index:60},{key:'conditions_notes',label:'Состояния своими словами',index:61},
-    {key:'medicines',label:'Лекарства',index:62},{key:'doctor_guidance',label:'Рекомендации и ограничения врача',index:63},
-    {key:'allergies',label:'Аллергии и непереносимости',index:64},{key:'supplements',label:'Пищевые добавки',index:66},{key:'warning_symptoms',label:'Тревожные симптомы из списка',index:69},
+    {key:'confirmed_conditions',label:'Подтверждённые состояния',index:59},{key:'conditions_notes',label:'Состояния своими словами',index:60},
+    {key:'medicines',label:'Лекарства',index:61},{key:'doctor_guidance',label:'Рекомендации и ограничения врача',index:62},
+    {key:'allergies',label:'Аллергии и непереносимости',index:63},{key:'supplements',label:'Пищевые добавки',index:65},{key:'warning_symptoms',label:'Тревожные симптомы из списка',index:69},
   ]},
 ];
 

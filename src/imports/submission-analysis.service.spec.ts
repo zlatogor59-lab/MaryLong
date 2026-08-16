@@ -34,6 +34,7 @@ describe('submission analysis',()=>{
   it('rejects a payload with a changed hash',async()=>await expect(service({hash:'bad'}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('PAYLOAD_INTEGRITY_FAILED'));
   it('supports v3 without exposing the optional email identifier',async()=>{
     const v3Values=[...values,'synthetic@example.test'];
+    v3Values[59]='Нет';v3Values[60]='Состояний нет';v3Values[61]='Лекарств нет';v3Values[62]='Ограничений нет';v3Values[63]='Аллергий нет';v3Values[65]='Добавок нет';v3Values[69]='Ничего из перечисленного';
     const v3Plaintext=Buffer.from(JSON.stringify(v3Values));
     const v3Record={...record,schemaId:'forms_v3_77_columns' as const,payloadHash:createHash('sha256').update(v3Plaintext).digest('hex'),payloadCiphertext:v3Plaintext};
     const instance=new SubmissionAnalysisService({findById:async()=>v3Record} as never,{activeConsultant:async()=>user.id} as never,
@@ -41,5 +42,10 @@ describe('submission analysis',()=>{
     const result=await instance.get(record.id,clientId,user,'req_v3');
     expect(result.schema_id).toBe('forms_v3_77_columns');
     expect(JSON.stringify(result)).not.toContain('synthetic@example.test');
+    const wellbeing=result.sections.find(section=>section.key==='wellbeing')?.fields;
+    expect(Object.fromEntries(wellbeing?.map(field=>[field.key,field.value])??[])).toMatchObject({
+      confirmed_conditions:'Нет',conditions_notes:'Состояний нет',medicines:'Лекарств нет',doctor_guidance:'Ограничений нет',
+      allergies:'Аллергий нет',supplements:'Добавок нет',warning_symptoms:'Ничего из перечисленного',
+    });
   });
 });
