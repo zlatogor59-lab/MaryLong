@@ -68,6 +68,18 @@ enum ProteinTargetSource {
   manual
   @@map("protein_target_source")
 }
+enum ProteinOrigin {
+  plant
+  animal
+  mixed
+  @@map("protein_origin")
+}
+enum FoodProductStatus {
+  draft
+  verified
+  retired
+  @@map("food_product_status")
+}
 enum AuditDecision {
   ALLOW
   DENY
@@ -237,6 +249,57 @@ model ProteinTargetVersion {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   @@unique([targetId, version])
   @@map("protein_target_versions")
+}
+
+model FoodProductCard {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  canonicalName String @map("canonical_name")
+  proteinPer100g Decimal @map("protein_per_100g") @db.Decimal(7,3)
+  origin ProteinOrigin
+  plantSharePercent Int @map("plant_share_percent")
+  sourceLabel String @map("source_label")
+  sourceReference String? @map("source_reference")
+  status FoodProductStatus @default(draft)
+  createdBy String @map("created_by") @db.Uuid
+  verifiedBy String? @map("verified_by") @db.Uuid
+  verifiedAt DateTime? @map("verified_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  version Int @default(1)
+  @@map("food_product_cards")
+}
+
+model ProteinIntakeAssessment {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @unique @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  payloadCiphertext Bytes @map("payload_ciphertext")
+  totalProteinG Decimal @map("total_protein_g") @db.Decimal(8,2)
+  plantProteinG Decimal @map("plant_protein_g") @db.Decimal(8,2)
+  animalProteinG Decimal @map("animal_protein_g") @db.Decimal(8,2)
+  completenessPercent Int @map("completeness_percent")
+  version Int @default(1)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("protein_intake_assessments")
+}
+
+model ProteinIntakeAssessmentVersion {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assessmentId String @map("assessment_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  payloadCiphertext Bytes @map("payload_ciphertext")
+  totalProteinG Decimal @map("total_protein_g") @db.Decimal(8,2)
+  plantProteinG Decimal @map("plant_protein_g") @db.Decimal(8,2)
+  animalProteinG Decimal @map("animal_protein_g") @db.Decimal(8,2)
+  completenessPercent Int @map("completeness_percent")
+  version Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([assessmentId, version])
+  @@map("protein_intake_assessment_versions")
 }
 
 model AuditEvent {

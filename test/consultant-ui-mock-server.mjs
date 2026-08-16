@@ -13,6 +13,8 @@ let noteBody = '';
 let noteVersion = 0;
 let booking = { status:'pending',scheduled_at:null,contact_note:'',version:0,updated_at:null };
 let proteinTarget = { source:null,bmi_exact:null,bmi_rounded:null,protein_factor_g:null,target_min_g:null,target_max_g:null,reason:'',version:0,updated_at:null };
+const foodProducts=[{id:'33333333-3333-4333-8333-333333333331',name:'Синтетическая чечевица',proteinPer100g:10,origin:'plant',plantSharePercent:100,sourceLabel:'SYNTHETIC_TEST_ONLY',sourceReference:null,version:1},{id:'33333333-3333-4333-8333-333333333332',name:'Синтетическая рыба',proteinPer100g:20,origin:'animal',plantSharePercent:0,sourceLabel:'SYNTHETIC_TEST_ONLY',sourceReference:null,version:1}];
+let proteinIntake={items:[],summary:null,version:0,updated_at:null};
 
 const sendJson = (response, status, body) => {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -88,6 +90,9 @@ createServer(async (request, response) => {
       sendJson(response,200,{submission_id:submissionId,...proteinTarget});
     });
   }
+  if(request.method==='GET'&&url.pathname===`/api/v1/clients/${clientId}/food-products`)return sendJson(response,200,{items:foodProducts});
+  if(request.method==='GET'&&url.pathname===`/api/v1/clients/${clientId}/submissions/${submissionId}/protein-intake`)return sendJson(response,200,{submission_id:submissionId,...proteinIntake});
+  if(request.method==='PATCH'&&url.pathname===`/api/v1/clients/${clientId}/submissions/${submissionId}/protein-intake`){let raw='';request.setEncoding('utf8');request.on('data',chunk=>raw+=chunk);return request.on('end',()=>{const expected=Number(String(request.headers['if-match']||'').replace(/[^0-9]/g,''));if(expected!==proteinIntake.version)return sendJson(response,409,{error:{code:'PROTEIN_INTAKE_VERSION_CONFLICT'}});const items=JSON.parse(raw).items,lines=items.map(item=>{const product=foodProducts.find(p=>p.id===item.product_card_id),proteinG=item.mass_g*product.proteinPer100g/100,plantProteinG=proteinG*product.plantSharePercent/100;return {...item,product,proteinG,plantProteinG,animalProteinG:proteinG-plantProteinG};}),total=lines.reduce((n,l)=>n+l.proteinG,0),plant=lines.reduce((n,l)=>n+l.plantProteinG,0),animal=total-plant;proteinIntake={items,lines,unresolved:[],summary:{total_protein_g:total,plant_protein_g:plant,animal_protein_g:animal,plant_share_percent:total?plant/total*100:null,plant_share_status:total&&plant/total>=.5?'meets_guide':'below_guide',completeness_percent:100,meal_totals:[],target_min_g:75,target_max_g:100,range_status:total<75?'below_range':total>100?'above_range':'within_range'},version:proteinIntake.version+1,updated_at:'2026-08-16T19:00:00.000Z'};sendJson(response,200,{submission_id:submissionId,...proteinIntake});});}
   if (request.method === 'POST' && url.pathname === `/api/v1/submissions/${submissionId}/accept`) {
     request.resume();
     return request.on('end', () => { submissionStatus='accepted'; sendJson(response, 200, {

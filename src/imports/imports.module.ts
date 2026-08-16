@@ -24,7 +24,11 @@ import { ConsultationBookingRepository } from './consultation-booking.repository
 import { ProteinTargetController } from './protein-target.controller';
 import { ProteinTargetService } from './protein-target.service';
 import { ProteinTargetRepository } from './protein-target.repository';
+import { ProteinIntakeController } from './protein-intake.controller';
+import { ProteinIntakeService } from './protein-intake.service';
+import { ProteinIntakeRepository } from './protein-intake.repository';
+import { FoodProductRepository } from './food-product.repository';
 
-@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController,ConsultationBookingController,ProteinTargetController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,ConsultationBookingService,ConsultationBookingRepository,ProteinTargetService,ProteinTargetRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
+@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController,ConsultationBookingController,ProteinTargetController,ProteinIntakeController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,ConsultationBookingService,ConsultationBookingRepository,ProteinTargetService,ProteinTargetRepository,ProteinIntakeService,ProteinIntakeRepository,FoodProductRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
   PrismaSubmissionStore,{provide:SubmissionStore,useExisting:PrismaSubmissionStore}] })
 export class ImportsModule {}
