@@ -21,7 +21,10 @@ import { ConsultantNoteRepository } from './consultant-note.repository';
 import { ConsultationBookingController } from './consultation-booking.controller';
 import { ConsultationBookingService } from './consultation-booking.service';
 import { ConsultationBookingRepository } from './consultation-booking.repository';
+import { ProteinTargetController } from './protein-target.controller';
+import { ProteinTargetService } from './protein-target.service';
+import { ProteinTargetRepository } from './protein-target.repository';
 
-@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController,ConsultationBookingController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,ConsultationBookingService,ConsultationBookingRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
+@Module({ imports:[AuthorizationModule,AuditModule], controllers:[ImportPreviewController,SubmissionWorkflowController,SubmissionHistoryController,SubmissionAnalysisController,ConsultantNoteController,ConsultationBookingController,ProteinTargetController], providers:[ImportPreviewService,SubmissionWorkflowService,SubmissionAnalysisService,ConsultantNoteService,ConsultantNoteRepository,ConsultationBookingService,ConsultationBookingRepository,ProteinTargetService,ProteinTargetRepository,CsvParserService,ImportRateLimiterService,PayloadCryptoService,AssignmentRepository,SubmissionHistoryRepository,
   PrismaSubmissionStore,{provide:SubmissionStore,useExisting:PrismaSubmissionStore}] })
 export class ImportsModule {}

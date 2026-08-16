@@ -7,7 +7,7 @@ import { SubmissionAnalysisService } from './submission-analysis.service';
 const user:AuthenticatedUser={id:'00000000-0000-0000-0000-000000000001',authSubject:'synthetic',role:'consultant',status:'active',sessionIssuedAt:new Date(),sessionRevokedAt:null};
 const clientId='00000000-0000-0000-0000-000000000099';
 const values=Array(76).fill('');
-values[1]='Скрытое имя';values[2]='0000000000';values[3]='170';values[13]='Улучшить рацион';values[28]='Синтетический обед';values[46]='secret_telegram';values[60]='Нет';values[70]='private-file';
+values[1]='Скрытое имя';values[2]='0000000000';values[3]='170';values[4]='70';values[13]='Улучшить рацион';values[28]='Синтетический обед';values[39]='80';values[40]='95';values[46]='secret_telegram';values[50]='Женский';values[60]='Нет';values[70]='private-file';
 const plaintext=Buffer.from(JSON.stringify(values));
 const record={id:'00000000-0000-0000-0000-000000000020',clientId,sourceResponseId:undefined,idempotencyKey:'k',schemaId:'forms_v2_76_columns' as const,
   headerFingerprint:'h',payloadHash:createHash('sha256').update(plaintext).digest('hex'),payloadCiphertext:plaintext,status:'accepted' as const,blockCode:undefined,consentStatus:'verified' as const};
@@ -28,6 +28,16 @@ describe('submission analysis',()=>{
     expect(JSON.stringify(result)).not.toContain('secret_telegram');
     expect(JSON.stringify(result)).not.toContain('private-file');
     expect(events).toHaveLength(1);
+  });
+  it('calculates BMI, weight guides and waist-to-hip ratio for a woman',async()=>{
+    const result=await service().instance.get(record.id,clientId,user,'req_metrics');
+    const fields=result.sections.find(section=>section.key==='anthropometrics')?.fields??[];
+    const metrics=Object.fromEntries(fields.map(field=>[field.key,field.value]));
+    expect(metrics).toMatchObject({
+      bmi:'24,2 кг/м²',reference_weight_range:'53,5–72,0 кг',optimal_weight_guide:'57,8–63,6 кг',waist_hip_ratio:'0,84',
+    });
+    expect(metrics.waist_hip_guide).toContain('менее 0,80');
+    expect(metrics.waist_hip_guide).toContain('0,85 и выше');
   });
   it('hides a non-accepted submission',async()=>await expect(service({status:'verified'}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('RESOURCE_UNAVAILABLE'));
   it('denies a consultant without active assignment',async()=>await expect(service({assigned:null}).instance.get(record.id,clientId,user,'req')).rejects.toThrow('RESOURCE_UNAVAILABLE'));

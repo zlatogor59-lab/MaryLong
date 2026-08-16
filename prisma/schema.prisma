@@ -62,6 +62,12 @@ enum ConsultationBookingStatus {
   needs_reminder
   @@map("consultation_booking_status")
 }
+enum ProteinTargetSource {
+  built_in
+  physical_ruler
+  manual
+  @@map("protein_target_source")
+}
 enum AuditDecision {
   ALLOW
   DENY
@@ -194,6 +200,43 @@ model ConsultationBookingVersion {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   @@unique([bookingId, version])
   @@map("consultation_booking_versions")
+}
+
+model ProteinTarget {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @unique @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  source ProteinTargetSource
+  bmiExact Decimal? @map("bmi_exact") @db.Decimal(5,2)
+  bmiRounded Int? @map("bmi_rounded")
+  proteinFactorG Int @map("protein_factor_g")
+  targetMinG Int @map("target_min_g")
+  targetMaxG Int @map("target_max_g")
+  reasonCiphertext Bytes @map("reason_ciphertext")
+  version Int @default(1)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("protein_targets")
+}
+
+model ProteinTargetVersion {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetId String @map("target_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  source ProteinTargetSource
+  bmiExact Decimal? @map("bmi_exact") @db.Decimal(5,2)
+  bmiRounded Int? @map("bmi_rounded")
+  proteinFactorG Int @map("protein_factor_g")
+  targetMinG Int @map("target_min_g")
+  targetMaxG Int @map("target_max_g")
+  reasonCiphertext Bytes @map("reason_ciphertext")
+  version Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([targetId, version])
+  @@map("protein_target_versions")
 }
 
 model AuditEvent {

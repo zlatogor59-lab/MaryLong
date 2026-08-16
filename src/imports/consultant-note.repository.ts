@@ -38,6 +38,6 @@ export class ConsultantNoteRepository {
         VALUES (${input.requestId},${input.authorUserId}::uuid,'consultant','consultant_note.save','consultant_note',${note.id}::uuid,
           ${note.clientId}::uuid,'SUCCESS','CONSULTANT_NOTE_SAVED')`;
       return note;
-    });
+    },{maxWait:5_000});
   }
 }

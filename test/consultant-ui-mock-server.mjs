@@ -12,6 +12,7 @@ let submissionStatus = 'verified';
 let noteBody = '';
 let noteVersion = 0;
 let booking = { status:'pending',scheduled_at:null,contact_note:'',version:0,updated_at:null };
+let proteinTarget = { source:null,bmi_exact:null,bmi_rounded:null,protein_factor_g:null,target_min_g:null,target_max_g:null,reason:'',version:0,updated_at:null };
 
 const sendJson = (response, status, body) => {
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
@@ -72,6 +73,19 @@ createServer(async (request, response) => {
       if(expected!==booking.version)return sendJson(response,409,{error:{code:'CONSULTATION_BOOKING_VERSION_CONFLICT'}});
       const input=JSON.parse(raw);booking={...input,version:booking.version+1,updated_at:'2026-08-16T10:00:00.000Z'};
       sendJson(response,200,{submission_id:submissionId,...booking});
+    });
+  }
+  if (request.method === 'GET' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/protein-target`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    return sendJson(response, 200, { submission_id:submissionId,...proteinTarget });
+  }
+  if (request.method === 'PATCH' && url.pathname === `/api/v1/clients/${clientId}/submissions/${submissionId}/protein-target`) {
+    if (submissionStatus !== 'accepted') return sendJson(response, 404, { error:{ code:'RESOURCE_UNAVAILABLE' } });
+    let raw='';request.setEncoding('utf8');request.on('data',chunk=>raw+=chunk);return request.on('end',()=>{
+      const expected=Number(String(request.headers['if-match']||'').replace(/[^0-9]/g,''));
+      if(expected!==proteinTarget.version)return sendJson(response,409,{error:{code:'PROTEIN_TARGET_VERSION_CONFLICT'}});
+      const input=JSON.parse(raw),builtIn=input.source==='built_in';proteinTarget={source:input.source,bmi_exact:builtIn?24.22:null,bmi_rounded:builtIn?24:null,protein_factor_g:builtIn?89:input.protein_factor_g,target_min_g:builtIn?75:input.target_min_g,target_max_g:builtIn?100:input.target_max_g,reason:input.reason||'',version:proteinTarget.version+1,updated_at:'2026-08-16T10:00:00.000Z'};
+      sendJson(response,200,{submission_id:submissionId,...proteinTarget});
     });
   }
   if (request.method === 'POST' && url.pathname === `/api/v1/submissions/${submissionId}/accept`) {

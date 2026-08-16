@@ -97,6 +97,20 @@
           <div class="analysis-head"><div><p class="eyebrow">Принятая анкета</p><h2 id="analysis-title">Рабочий обзор</h2></div><button id="close-analysis" class="secondary" type="button">Закрыть</button></div>
           <p id="analysis-disclaimer" class="analysis-disclaimer"></p>
           <div id="analysis-sections" class="analysis-sections"></div>
+          <section class="protein-target" aria-labelledby="protein-target-title">
+            <div class="note-head"><div><p class="eyebrow">Индивидуальный ориентир</p><h3 id="protein-target-title">Белковый диапазон</h3></div><span id="protein-target-version" class="note-version">Версия 0</span></div>
+            <p class="note-help">Встроенный расчёт использует пол, рост, массу и округлённый до ближайшего целого ИМТ. Нестандартные значения вводятся вручную.</p>
+            <label>Способ определения<select id="protein-target-source"><option value="built_in">Встроенный расчёт</option><option value="physical_ruler">Физическая линейка</option><option value="manual">Ручной расчёт</option></select></label>
+            <div class="protein-grid">
+              <label>Protein Factor, г<input id="protein-factor" type="number" min="20" max="300" step="1"></label>
+              <label>Нижняя граница, г<input id="protein-min" type="number" min="20" max="300" step="1"></label>
+              <label>Верхняя граница, г<input id="protein-max" type="number" min="20" max="300" step="1"></label>
+            </div>
+            <p id="protein-calculation" class="note-help"></p>
+            <label for="protein-reason">Пояснение или причина корректировки</label>
+            <textarea id="protein-reason" maxlength="1000" rows="3" placeholder="Необязательно для встроенного расчёта"></textarea>
+            <div class="note-actions"><small id="protein-save-status" role="status" aria-live="polite"></small><button id="save-protein-target" class="primary compact" type="button" disabled>Сохранить ориентир</button></div>
+          </section>
           <section class="consultation-booking" aria-labelledby="booking-title">
             <div class="note-head"><div><p class="eyebrow">Связь после анкеты</p><h3 id="booking-title">Запись на консультацию</h3></div><span id="booking-version" class="note-version">Версия 0</span></div>
             <p class="note-help">Внутренний статус. Автоматические сообщения клиенту не отправляются.</p>

@@ -10,6 +10,8 @@ import { SubmissionStore } from './submission.store';
 
 type FieldDefinition = { key:string; label:string; index:number };
 type SectionDefinition = { key:string; title:string; fields:FieldDefinition[] };
+type AnalysisField = { key:string; label:string; value:string };
+type AnalysisSection = { key:string; title:string; fields:AnalysisField[] };
 
 // Explicit allowlist for v2/v3. Direct identifiers (including optional email), consent, referral and uploaded files are intentionally absent.
 const V2_SECTIONS:SectionDefinition[] = [
@@ -59,12 +61,58 @@ export class SubmissionAnalysisService {
     try { values=JSON.parse(Buffer.from(plaintext).toString('utf8')); } catch { throw new AppError('PAYLOAD_INVALID',HttpStatus.CONFLICT); }
     const expectedWidth=record.schemaId==='forms_v3_77_columns'?77:76;
     if(!Array.isArray(values)||values.length!==expectedWidth) throw new AppError('PAYLOAD_INVALID',HttpStatus.CONFLICT);
-    const sections=V2_SECTIONS.map(section=>({...section,fields:section.fields.map(field=>({...field,value:normalise(values[field.index])})).filter(field=>field.value!==null)}))
+    const sections:AnalysisSection[]=V2_SECTIONS.map(section=>({...section,fields:section.fields.map(field=>({...field,value:normalise(values[field.index])}))
+      .filter((field):field is FieldDefinition&{value:string}=>field.value!==null)}))
       .filter(section=>section.fields.length>0).map(section=>({key:section.key,title:section.title,fields:section.fields.map(({index:_,...field})=>field)}));
+    const anthropometrics=buildAnthropometricSection(values);
+    if(anthropometrics) sections.splice(Math.min(1,sections.length),0,anthropometrics);
     await this.audit.record({requestId,actorUserId:user.id,actorRole:user.role,action:'submission.analysis.read',resourceType:'form_submission',resourceId:id,
       clientId:record.clientId,decision:'ALLOW',reasonCode:'SUBMISSION_ANALYSIS_READ'});
-    return {submission_id:id,schema_id:record.schemaId,disclaimer:'Показаны исходные ответы клиента. Автоматические медицинские выводы не формируются.',sections};
+    return {submission_id:id,schema_id:record.schemaId,
+      disclaimer:'Расчётные показатели являются скрининговыми ориентирами, а не диагнозом или обязательной целью. Индивидуальную цель консультант определяет с учётом возраста, состава тела, состояния здоровья и самочувствия.',sections};
   }
+}
+
+function buildAnthropometricSection(values:unknown[]):AnalysisSection|null {
+  const heightCm=parseMeasurement(values[3]);
+  const weightKg=parseMeasurement(values[4]);
+  const waistCm=parseMeasurement(values[39]);
+  const hipsCm=parseMeasurement(values[40]);
+  const sex=normalise(values[50])?.toLowerCase()??'';
+  const fields:AnalysisField[]=[];
+
+  if(heightCm!==null&&weightKg!==null&&heightCm>=100&&heightCm<=250&&weightKg>=20&&weightKg<=500) {
+    const heightM=heightCm/100;
+    const heightSquared=heightM*heightM;
+    fields.push(
+      {key:'bmi',label:'Текущий индекс массы тела',value:`${formatNumber(weightKg/heightSquared,1)} кг/м²`},
+      {key:'reference_weight_range',label:'Референсный диапазон веса (ИМТ 18,5–24,9)',value:formatRange(18.5*heightSquared,24.9*heightSquared)},
+      {key:'optimal_weight_guide',label:'Оптимальный ориентир веса (ИМТ 20–22)',value:formatRange(20*heightSquared,22*heightSquared)},
+    );
+  }
+
+  if(waistCm!==null&&hipsCm!==null&&waistCm>=30&&waistCm<=250&&hipsCm>=30&&hipsCm<=300) {
+    fields.push({key:'waist_hip_ratio',label:'Отношение талии к бёдрам',value:formatNumber(waistCm/hipsCm,2)});
+    if(sex.includes('жен')) fields.push({key:'waist_hip_guide',label:'Ориентир для женщин',value:'Оптимальный ориентир: менее 0,80; порог повышенного риска: 0,85 и выше'});
+    else if(sex.includes('муж')) fields.push({key:'waist_hip_guide',label:'Ориентир для мужчин',value:'Порог повышенного риска: 0,90 и выше'});
+  }
+
+  return fields.length?{key:'anthropometrics',title:'Расчётные показатели',fields}:null;
+}
+
+function parseMeasurement(value:unknown):number|null {
+  const text=normalise(value);
+  if(!text)return null;
+  const parsed=Number(text.replace(',','.'));
+  return Number.isFinite(parsed)?parsed:null;
+}
+
+function formatNumber(value:number,digits:number):string {
+  return value.toLocaleString('ru-RU',{minimumFractionDigits:digits,maximumFractionDigits:digits});
+}
+
+function formatRange(min:number,max:number):string {
+  return `${formatNumber(min,1)}–${formatNumber(max,1)} кг`;
 }
 
 function normalise(value:unknown):string|null {
