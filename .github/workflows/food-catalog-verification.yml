@@ -51,6 +51,8 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Generate Prisma client
+        run: pnpm prisma:generate
       - name: Run complete catalog verification
         run: pnpm food-products:verify --confirm-database=consultant_catalog_ci
       - name: Publish verification report
