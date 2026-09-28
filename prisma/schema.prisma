@@ -592,3 +592,18 @@ model ProfessionalConclusionDraftVersion {
   @@unique([draftId,version])
   @@map("professional_conclusion_draft_versions")
 }
+
+model FoodCatalogSyncRun {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  operation        String
+  status           String
+  resultSummary    Json?     @map("result_summary")
+  integritySummary Json?     @map("integrity_summary")
+  errorCode        String?   @map("error_code")
+  startedAt        DateTime  @default(now()) @map("started_at") @db.Timestamptz
+  completedAt      DateTime? @map("completed_at") @db.Timestamptz
+
+  @@index([startedAt])
+  @@index([operation,startedAt])
+  @@map("food_catalog_sync_runs")
+}

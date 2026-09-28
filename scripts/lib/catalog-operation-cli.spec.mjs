@@ -1,5 +1,5 @@
 import {describe,expect,it} from 'vitest';
-import {parseCatalogOperationArgs,parseScriptOutput,requireLocalDatabase} from './catalog-operation-cli.mjs';
+import {catalogOperationErrorCode,parseCatalogOperationArgs,parseScriptOutput,requireLocalDatabase,summarizeCatalogOperationResult} from './catalog-operation-cli.mjs';
 
 describe('food catalog operation CLI',()=>{
   it('uses dry-run by default and requires an explicit apply flag',()=>{
@@ -17,5 +17,14 @@ describe('food catalog operation CLI',()=>{
   it('allows only a local database',()=>{
     expect(requireLocalDatabase('postgresql://user:pass@localhost:5432/catalog')).toBe('catalog');
     expect(()=>requireLocalDatabase('postgresql://user:pass@example.com/catalog')).toThrow('LOCAL_DATABASE_REQUIRED');
+  });
+  it('keeps only aggregate counters for the persistent journal',()=>{
+    const summary=summarizeCatalogOperationResult([{name:'Secret source row',status:'would_update'},{name:'Another row',status:'would_update'},{mode:'apply',updated:2,products:['a','b']}]);
+    expect(summary).toEqual({records:3,updated:2,products:2,statuses:{would_update:2}});
+    expect(JSON.stringify(summary)).not.toContain('Secret source row');
+  });
+  it('reduces failures to a controlled code',()=>{
+    expect(catalogOperationErrorCode(new Error('VERSION_AUDIT_FAILED: private output'))).toBe('VERSION_AUDIT_FAILED');
+    expect(catalogOperationErrorCode(new Error('lowercase message'))).toBe('UNEXPECTED_ERROR');
   });
 });

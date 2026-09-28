@@ -31,3 +31,25 @@ export function requireLocalDatabase(value){
   if(!['localhost','127.0.0.1'].includes(url.hostname))throw new Error('LOCAL_DATABASE_REQUIRED');
   return url.pathname.slice(1);
 }
+
+export function summarizeCatalogOperationResult(result){
+  const rows=Array.isArray(result)?result:[result];
+  const summary={records:rows.filter(Boolean).length};
+  const statuses={};
+  for(const row of rows){
+    if(!row||typeof row!=='object')continue;
+    if(typeof row.status==='string')statuses[row.status]=(statuses[row.status]??0)+1;
+    for(const [key,value] of Object.entries(row)){
+      if(typeof value==='number'&&Number.isFinite(value))summary[key]=(summary[key]??0)+value;
+      else if(Array.isArray(value))summary[key]=(summary[key]??0)+value.length;
+      else if(key==='blocked'&&typeof value==='boolean')summary.blocked=value;
+    }
+  }
+  if(Object.keys(statuses).length)summary.statuses=statuses;
+  return summary;
+}
+
+export function catalogOperationErrorCode(error){
+  const message=error instanceof Error?error.message:String(error);
+  return /^[A-Z][A-Z0-9_]+/.exec(message)?.[0]??'UNEXPECTED_ERROR';
+}
