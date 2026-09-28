@@ -13,10 +13,8 @@ const run=(file,args=[])=>new Promise(resolve=>{
 });
 
 let operation='unknown',mode='dry_run',journal=null,resultSummary=null,heartbeat=null;
-const prisma=new PrismaClient();
-try{
-  const parsed=parseCatalogOperationArgs(process.argv.slice(2));operation=parsed.operation;mode=parsed.mode;
-  const database=requireLocalDatabase(process.env.DATABASE_URL);
+const prisma=new PrismaClient(),lockPrisma=new PrismaClient();
+async function execute(parsed,database){
   if(parsed.apply){
     const now=new Date();
     await prisma.foodCatalogSyncRun.updateMany({where:{status:'running',heartbeatAt:{lt:catalogSyncStaleBefore(now)}},data:{status:'interrupted',errorCode:'PROCESS_INTERRUPTED',integritySummary:{status:'not_run',reason:'process_interrupted'},completedAt:now}});
@@ -36,10 +34,20 @@ try{
     if(heartbeat)clearInterval(heartbeat);
     await prisma.foodCatalogSyncRun.update({where:{id:journal.id},data:{status:'succeeded',resultSummary,integritySummary:{status:'passed',cardsChecked:integrity.result.cardsChecked,issues:integrity.result.issues.length,orphanSnapshots:integrity.result.orphanSnapshots},heartbeatAt:new Date(),completedAt:new Date()}});
   }
-  console.log(JSON.stringify({operation,mode,status:'ok',database,result,integrity,...(journal?{runId:journal.id}:{})},null,2));
+  return{operation,mode,status:'ok',database,result,integrity,...(journal?{runId:journal.id}:{})};
+}
+try{
+  const parsed=parseCatalogOperationArgs(process.argv.slice(2));operation=parsed.operation;mode=parsed.mode;
+  const database=requireLocalDatabase(process.env.DATABASE_URL);
+  const response=parsed.apply?await lockPrisma.$transaction(async tx=>{
+    const rows=await tx.$queryRaw`SELECT pg_try_advisory_xact_lock(hashtext('food-catalog-global-sync-v1')) AS acquired`;
+    if(!rows[0]?.acquired)throw new Error('CATALOG_SYNC_ALREADY_RUNNING');
+    return execute(parsed,database);
+  },{maxWait:10_000,timeout:24*60*60_000}):await execute(parsed,database);
+  console.log(JSON.stringify(response,null,2));
 }catch(error){
   if(heartbeat)clearInterval(heartbeat);
   if(journal)try{await prisma.foodCatalogSyncRun.update({where:{id:journal.id},data:{status:'failed',resultSummary,integritySummary:{status:'failed'},errorCode:catalogOperationErrorCode(error),heartbeatAt:new Date(),completedAt:new Date()}});}catch{}
   console.error(JSON.stringify({operation,mode,status:'failed',error:error instanceof Error?error.message:String(error)},null,2));
   process.exitCode=1;
-}finally{await prisma.$disconnect();}
+}finally{await Promise.all([prisma.$disconnect(),lockPrisma.$disconnect()]);}
