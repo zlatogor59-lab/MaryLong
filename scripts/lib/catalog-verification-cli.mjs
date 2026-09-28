@@ -7,3 +7,6 @@ export function verifyCatalogDatabase(args,databaseUrl){
   if(!confirmed||confirmed!==actual)throw new Error('CONFIRMED_DATABASE_MISMATCH');
   return actual;
 }
+
+export const catalogVerificationExitCodes=Object.freeze({configuration:2,migrations:10,build:11,tests:12,postgresql:13,version_audit:14,browser:15});
+export const catalogVerificationCode=step=>step?`FAILED_${step.toUpperCase()}`:'PASSED';
