@@ -36,6 +36,7 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/consultant_catalog_ci
+      CHROME_PATH: /usr/bin/google-chrome
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
