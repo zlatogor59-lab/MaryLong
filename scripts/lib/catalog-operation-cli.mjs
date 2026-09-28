@@ -53,3 +53,7 @@ export function catalogOperationErrorCode(error){
   const message=error instanceof Error?error.message:String(error);
   return /^[A-Z][A-Z0-9_]+/.exec(message)?.[0]??'UNEXPECTED_ERROR';
 }
+
+export const catalogSyncHeartbeatIntervalMs=30_000;
+export const catalogSyncStaleAfterMs=5*60_000;
+export const catalogSyncStaleBefore=now=>new Date(now.getTime()-catalogSyncStaleAfterMs);

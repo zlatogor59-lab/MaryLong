@@ -601,6 +601,7 @@ model FoodCatalogSyncRun {
   integritySummary Json?     @map("integrity_summary")
   errorCode        String?   @map("error_code")
   startedAt        DateTime  @default(now()) @map("started_at") @db.Timestamptz
+  heartbeatAt      DateTime  @default(now()) @map("heartbeat_at") @db.Timestamptz
   completedAt      DateTime? @map("completed_at") @db.Timestamptz
 
   @@index([startedAt])

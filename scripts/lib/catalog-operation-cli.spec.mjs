@@ -1,5 +1,5 @@
 import {describe,expect,it} from 'vitest';
-import {catalogOperationErrorCode,parseCatalogOperationArgs,parseScriptOutput,requireLocalDatabase,summarizeCatalogOperationResult} from './catalog-operation-cli.mjs';
+import {catalogOperationErrorCode,catalogSyncHeartbeatIntervalMs,catalogSyncStaleBefore,parseCatalogOperationArgs,parseScriptOutput,requireLocalDatabase,summarizeCatalogOperationResult} from './catalog-operation-cli.mjs';
 
 describe('food catalog operation CLI',()=>{
   it('uses dry-run by default and requires an explicit apply flag',()=>{
@@ -26,5 +26,9 @@ describe('food catalog operation CLI',()=>{
   it('reduces failures to a controlled code',()=>{
     expect(catalogOperationErrorCode(new Error('VERSION_AUDIT_FAILED: private output'))).toBe('VERSION_AUDIT_FAILED');
     expect(catalogOperationErrorCode(new Error('lowercase message'))).toBe('UNEXPECTED_ERROR');
+  });
+  it('uses a five-minute stale heartbeat boundary',()=>{
+    expect(catalogSyncHeartbeatIntervalMs).toBeLessThan(5*60_000);
+    expect(catalogSyncStaleBefore(new Date('2026-09-28T12:05:00Z')).toISOString()).toBe('2026-09-28T12:00:00.000Z');
   });
 });
