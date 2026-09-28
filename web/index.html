@@ -29,6 +29,12 @@
         <div><p class="eyebrow">Администрирование</p><h2 id="catalog-title">Каталог продуктов</h2><p>Создавайте и проверяйте карточки до того, как они появятся в расчётах.</p></div>
         <div class="catalog-head-actions"><button id="catalog-duplicates" class="secondary" type="button">Возможные дубли <span id="catalog-duplicate-count">—</span></button><button id="catalog-new" class="primary compact" type="button">Новая карточка</button></div>
       </div>
+      <details id="catalog-sync-runs" class="catalog-sync-runs">
+        <summary>Журнал синхронизаций <span id="catalog-sync-run-count">—</span></summary>
+        <p>Последние применения служебных синхронизаций. Журнал доступен только для просмотра и не содержит исходных данных.</p>
+        <div id="catalog-sync-run-list" class="catalog-sync-run-list"></div>
+        <small id="catalog-sync-run-status" role="status" aria-live="polite">Загрузка журнала…</small>
+      </details>
       <section id="catalog-duplicate-panel" class="catalog-duplicate-panel" hidden aria-labelledby="catalog-duplicate-title">
         <div class="catalog-form-head"><div><p class="eyebrow">Контроль качества</p><h3 id="catalog-duplicate-title">Сравнение возможных дублей</h3></div><button id="catalog-duplicates-close" class="secondary" type="button">Закрыть</button></div>
         <p class="catalog-duplicate-help">Совпадения сгруппированы по нормализованному названию. Сравните значения и источники перед объединением.</p>

@@ -101,6 +101,10 @@ try {
   await cdp.send('Runtime.enable');
   await cdp.send('Page.enable');
   await waitFor(cdp, `document.querySelector('#catalog-admin')?.hidden === false`, 'admin catalog');
+  await waitFor(cdp, `document.querySelector('#catalog-sync-run-count')?.textContent === '2'`, 'synchronization journal');
+  const syncRunText=await cdp.evaluate(`document.querySelector('#catalog-sync-runs').textContent`);
+  assert.match(syncRunText,/sync-seafood/);assert.match(syncRunText,/Успешно/);assert.match(syncRunText,/seed-local/);assert.match(syncRunText,/Ошибка/);assert.match(syncRunText,/Проверено карточек:\s*84/);
+  assert.equal(await cdp.evaluate(`document.querySelectorAll('#catalog-sync-runs button, #catalog-sync-runs input, #catalog-sync-runs select, #catalog-sync-runs textarea').length`),0,'sync journal must not expose controls');
   await cdp.evaluate(`document.querySelector('#catalog-new').click()`);
   await waitFor(cdp, `document.querySelector('#catalog-form')?.hidden === false`, 'new card form');
   await cdp.evaluate(`document.querySelector('details.catalog-profile-fields').open=true`);

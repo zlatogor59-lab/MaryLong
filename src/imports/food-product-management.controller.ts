@@ -10,6 +10,7 @@ export class FoodProductManagementController{
   constructor(private readonly products:FoodProductManagementService){}
   @Get() list(@CurrentUser()user:AuthenticatedUser,@Query('status')status?:string,@Query('search')search?:string){return this.products.list(user,status,search);}
   @Get('duplicates') duplicates(@CurrentUser()user:AuthenticatedUser){return this.products.duplicates(user);}
+  @Get('sync-runs') syncRuns(@CurrentUser()user:AuthenticatedUser){return this.products.syncRuns(user);}
   @Get(':id/history') history(@CurrentUser()user:AuthenticatedUser,@Param('id')id:string){return this.products.history(user,id);}
   @Get(':id') async get(@CurrentUser()user:AuthenticatedUser,@Param('id')id:string,@Res({passthrough:true})res:Response){const result=await this.products.get(user,id);res.setHeader('ETag',`"${result.version}"`);return result;}
   @Post() async create(@CurrentUser()user:AuthenticatedUser,@Headers('x-request-id')requestId:string,@Body()body:Record<string,unknown>,@Res({passthrough:true})res:Response){const result=await this.products.create(user,requestId,body);res.setHeader('ETag',`"${result.version}"`);return result;}
