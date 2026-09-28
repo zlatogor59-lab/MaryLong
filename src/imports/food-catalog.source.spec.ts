@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
-const catalog = readJson('../tmp/fooddata-research/catalog-payload.json');
+const catalog = readJson('data/food-catalog/catalog-payload.json');
 const carbohydrate = readJson('docs/carbohydrate-quality-cofid-v1.json');
 const fatProfiles = readJson('docs/fat-profiles-v1.json');
 

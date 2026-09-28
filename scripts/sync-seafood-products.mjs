@@ -7,7 +7,7 @@ const databaseUrl = new URL(process.env.DATABASE_URL || '');
 if (!['localhost', '127.0.0.1'].includes(databaseUrl.hostname)) throw new Error('LOCAL_DATABASE_REQUIRED');
 
 const wantedCodes = new Set(['16-389', '16-390', '16-263']);
-const catalog = JSON.parse(await fs.readFile(new URL('../../tmp/fooddata-research/catalog-payload.json', import.meta.url), 'utf8'));
+const catalog = JSON.parse(await fs.readFile(new URL('../data/food-catalog/catalog-payload.json', import.meta.url), 'utf8'));
 const carbohydrates = JSON.parse(await fs.readFile(new URL('../docs/carbohydrate-quality-cofid-v1.json', import.meta.url), 'utf8'));
 const fats = JSON.parse(await fs.readFile(new URL('../docs/fat-profiles-v1.json', import.meta.url), 'utf8'));
 const sourceProducts = catalog.products.filter(product => wantedCodes.has(product.cofid_code));

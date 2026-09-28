@@ -5,7 +5,7 @@ import {buildFoodMineralProfile,sameFoodMineralProfile} from './lib/food-mineral
 
 const apply=process.argv.includes('--apply'),databaseUrl=new URL(process.env.DATABASE_URL||'');
 if(!['localhost','127.0.0.1'].includes(databaseUrl.hostname))throw new Error('LOCAL_DATABASE_REQUIRED');
-const source=JSON.parse(await fs.readFile(new URL('../../tmp/fooddata-research/photo-payload.json',import.meta.url),'utf8'));
+const source=JSON.parse(await fs.readFile(new URL('../data/food-catalog/photo-payload.json',import.meta.url),'utf8'));
 const prisma=new PrismaClient();
 try{
   const result=await prisma.$transaction(async tx=>{

@@ -8,7 +8,7 @@ import { buildFoodVitaminProfile } from '../../scripts/lib/food-vitamin-profile.
 
 describe('PHOTO-001 vitamin K source path', () => {
   it('preserves the audited CoFID K1 values and blocks an incomplete comparison', () => {
-    const root = path.resolve(__dirname, '../../../tmp/fooddata-research');
+    const root = path.resolve(__dirname, '../../data/food-catalog');
     const source = JSON.parse(fs.readFileSync(path.join(root, 'photo-payload.json'), 'utf8'));
     const ration = JSON.parse(fs.readFileSync(path.join(root, 'photo-macro-analysis.json'), 'utf8'));
     const profiles = source.products.map((product: any) => ({

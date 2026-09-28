@@ -1,7 +1,7 @@
 {
   "case_id": "PHOTO-001",
   "days": 1,
-  "source": "../tmp/fooddata-research/photo-payload.json",
+  "source": "data/food-catalog/photo-payload.json",
   "items": [
     {"mealKey":"breakfast","cofidCode":"12-962","massG":138,"sourceText":"Яйца жареные — 3 шт.; 3 × 46 г"},
     {"mealKey":"breakfast","cofidCode":"17-661","massG":14.2,"sourceText":"Масло сливочное — 1 ст. л.; USDA SR: 14,2 г/ст. л."},

@@ -3,7 +3,7 @@ import{readFileSync}from'node:fs';import{resolve}from'node:path';import{describe
 import{buildFoodMineralProfile}from'../../scripts/lib/food-mineral-profile.mjs';
 import{calculatePral}from'./pral.calculator';
 const read=(path:string)=>JSON.parse(readFileSync(resolve(process.cwd(),path),'utf8'));
-const fixture=read('test/fixtures/photo-001-diary.json'),source=read('../tmp/fooddata-research/photo-payload.json');
+const fixture=read('test/fixtures/photo-001-diary.json'),source=read('data/food-catalog/photo-payload.json');
 const products=new Map(source.products.map((p:any)=>[/^\d{2}-\d{3}$/.test(p.cofid_code??'')?p.cofid_code:p.product_id,p]));
 const portions=fixture.items.map((x:any)=>({foodKey:x.cofidCode??x.localKey,massG:x.massG}));
 const cards=fixture.items.map((x:any)=>{const key=x.cofidCode??x.localKey,p:any=products.get(key);if(!p)throw new Error(`PHOTO_001_PRAL_MAPPING_MISSING:${key}`);return{foodKey:key,displayName:p.name_ru,proteinPer100g:p.protein_g,minerals:buildFoodMineralProfile(p)};});

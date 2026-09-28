@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import {PrismaClient} from '@prisma/client';
 const url=new URL(process.env.DATABASE_URL||'');
 if(!['localhost','127.0.0.1'].includes(url.hostname))throw new Error('LOCAL_DATABASE_REQUIRED');
-const apply=process.argv.includes('--apply'),source=JSON.parse(await fs.readFile(new URL('../../tmp/fooddata-research/catalog-payload.json',import.meta.url),'utf8')),prisma=new PrismaClient();
+const apply=process.argv.includes('--apply'),source=JSON.parse(await fs.readFile(new URL('../data/food-catalog/catalog-payload.json',import.meta.url),'utf8')),prisma=new PrismaClient();
 try{
   const cards=await prisma.foodProductCard.findMany({select:{id:true,canonicalName:true}}),byName=new Map(cards.map(c=>[c.canonicalName,c]));
   const matches=source.products.filter(p=>byName.has(p.name_ru));

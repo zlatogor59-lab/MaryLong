@@ -8,7 +8,7 @@ import { buildFoodVitaminProfile } from '../../scripts/lib/food-vitamin-profile.
 
 describe('PHOTO-001 B12 and folate source path', () => {
   it('reproduces the documented ration while preserving missing, trace, and unknown enrichment', () => {
-    const root = path.resolve(__dirname, '../../../tmp/fooddata-research');
+    const root = path.resolve(__dirname, '../../data/food-catalog');
     const source = JSON.parse(fs.readFileSync(path.join(root, 'photo-payload.json'), 'utf8'));
     const ration = JSON.parse(fs.readFileSync(path.join(root, 'photo-macro-analysis.json'), 'utf8'));
     const cards = source.products.map((product: any) => {

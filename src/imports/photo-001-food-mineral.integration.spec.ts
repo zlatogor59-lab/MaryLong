@@ -7,7 +7,7 @@ import {calculateSodiumPotassium} from './sodium-potassium.calculator';
 import {buildFoodMineralProfile} from '../../scripts/lib/food-mineral-profile.mjs';
 
 const read=(path:string)=>JSON.parse(readFileSync(resolve(process.cwd(),path),'utf8'));
-const fixture=read('test/fixtures/photo-001-diary.json'),source=read('../tmp/fooddata-research/photo-payload.json');
+const fixture=read('test/fixtures/photo-001-diary.json'),source=read('data/food-catalog/photo-payload.json');
 const products=new Map(source.products.map((product:any)=>[/^\d{2}-\d{3}$/.test(product.cofid_code??'')?product.cofid_code:product.product_id,product]));
 const cards=fixture.items.map((item:any)=>{const key=item.cofidCode??item.localKey,product=products.get(key) as any;if(!product)throw new Error(`PHOTO_001_MINERAL_MAPPING_MISSING:${key}`);return{foodKey:key,displayName:product.name_ru,nutrients:buildFoodMineralProfile(product)};});
 const portions=fixture.items.map((item:any)=>({foodKey:item.cofidCode??item.localKey,grossMassG:item.massG}));
