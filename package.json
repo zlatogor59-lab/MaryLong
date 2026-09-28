@@ -29,6 +29,7 @@
     ,"food-products:audit-ua": "node scripts/audit-ukrainian-food-catalog.mjs"
     ,"food-products:sync-ua-priority": "node scripts/run-food-catalog-operation.mjs sync-ua-priority"
     ,"food-products:audit-versions": "node scripts/audit-food-product-card-versions.mjs"
+    ,"food-products:verify": "node scripts/verify-food-catalog.mjs"
   },
   "engines": {
     "node": ">=22 <23"
