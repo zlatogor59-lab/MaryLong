@@ -1,0 +1,14 @@
+import {Prisma,PrismaClient} from '@prisma/client';
+const apply=process.argv.includes('--apply'),url=new URL(process.env.DATABASE_URL||'');
+if(!['localhost','127.0.0.1'].includes(url.hostname))throw new Error('LOCAL_DATABASE_REQUIRED');
+const sourceReference='https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid';
+const efsa='https://www.efsa.europa.eu/en/topics/topic/caffeine';
+const products=[
+  ['Соль добавленная — йодирование неизвестно','Salt/Coffee v1 SC-SALT-UNSPECIFIED; CoFID 2021 17-367',sourceReference],
+  ['Соль йодированная — по этикетке','Salt/Coffee v1 SC-SALT-IODIZED-LABEL; sodium CoFID 2021 17-367; iodine label required',sourceReference],
+  ['Кофе фильтрованный, без добавок','Salt/Coffee v1 SC-COFFEE-FILTER; EFSA 90 mg caffeine / 200 ml',efsa],
+  ['Эспрессо, без добавок','Salt/Coffee v1 SC-COFFEE-ESPRESSO; EFSA 80 mg caffeine / 60 ml',efsa],
+  ['Кофе растворимый, приготовленный с водой','Salt/Coffee v1 SC-COFFEE-INSTANT; CoFID 2021 17-159; caffeine unavailable',sourceReference],
+  ['Кофе — способ приготовления неизвестен','Salt/Coffee v1 SC-COFFEE-UNKNOWN; composition unavailable',null],
+].map(([name_ru,source_label,source_reference])=>({name_ru,source_label,source_reference}));
+const prisma=new PrismaClient();try{const result=await prisma.$transaction(async tx=>{await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext('food-catalog-salt-coffee-sync-v1'))`;const existing=await tx.foodProductCard.findMany({where:{canonicalName:{in:products.map(x=>x.name_ru)}},select:{id:true,canonicalName:true,sourceLabel:true}});const conflicts=existing.filter(row=>row.sourceLabel!==products.find(x=>x.name_ru===row.canonicalName)?.source_label);if(conflicts.length)throw new Error(`SALT_COFFEE_CATALOG_CONFLICT:${JSON.stringify(conflicts)}`);const creates=products.filter(x=>!existing.some(row=>row.canonicalName===x.name_ru));if(!apply)return{mode:'dry_run',create:creates.map(x=>x.name_ru),skip:existing.map(x=>x.canonicalName)};const verifier=await tx.user.findFirst({where:{role:'admin',status:'active'},select:{id:true}});if(!verifier)throw new Error('ACTIVE_ADMIN_REQUIRED');const created=[];for(const p of creates){const row=await tx.foodProductCard.create({data:{canonicalName:p.name_ru,proteinPer100g:0,energyKcalPer100g:0,carbohydratePer100g:0,origin:'plant',plantSharePercent:100,processingClass:'other',carbohydrateFlags:[],sourceLabel:p.source_label,sourceReference:p.source_reference,status:'verified',createdBy:verifier.id,verifiedBy:verifier.id,verifiedAt:new Date()},select:{id:true}});created.push({name:p.name_ru,id:row.id});}return{mode:'apply',created,skipped:existing.map(x=>x.canonicalName)};},{isolationLevel:Prisma.TransactionIsolationLevel.Serializable});console.log(JSON.stringify(result));}finally{await prisma.$disconnect();}

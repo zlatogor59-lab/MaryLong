@@ -1,0 +1,566 @@
+{
+  "version": 1,
+  "definition_note": "Total sugars are not free sugars. Preferred-source class follows WHO food-source categories and is descriptive, not a clinical threshold.",
+  "products": [
+    {
+      "cofid_code": "16-389",
+      "name_ru": "Креветки королевские, готовые",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-390",
+      "name_ru": "Мидии, готовые",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-263",
+      "name_ru": "Кальмар, сырой",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "11-788",
+      "name_ru": "Овсяные хлопья, сухие",
+      "aoac_fibre_g_per_100g": 7.8,
+      "total_sugars_g_per_100g": 0.3,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "11-006",
+      "name_ru": "Гречневая крупа, сухая",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 0.4,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "11-858",
+      "name_ru": "Рис басмати, варёный без соли",
+      "aoac_fibre_g_per_100g": 0.6,
+      "total_sugars_g_per_100g": 0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "11-981",
+      "name_ru": "Хлеб цельнозерновой",
+      "aoac_fibre_g_per_100g": 7.0,
+      "total_sugars_g_per_100g": 2.8,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "11-1129",
+      "name_ru": "Макароны, варёные без соли",
+      "aoac_fibre_g_per_100g": 2.5,
+      "total_sugars_g_per_100g": 1.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-490",
+      "name_ru": "Картофель, варёный без соли",
+      "aoac_fibre_g_per_100g": 1.6,
+      "total_sugars_g_per_100g": 0.8,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-661",
+      "name_ru": "Чечевица зелёная/коричневая, варёная",
+      "aoac_fibre_g_per_100g": 7.4,
+      "total_sugars_g_per_100g": 0.2,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-662",
+      "name_ru": "Нут, варёный без соли",
+      "aoac_fibre_g_per_100g": 10.6,
+      "total_sugars_g_per_100g": 0.7,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-659",
+      "name_ru": "Фасоль красная, варёная без соли",
+      "aoac_fibre_g_per_100g": 11.1,
+      "total_sugars_g_per_100g": 0.8,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-536",
+      "name_ru": "Зелёный горошек, варёный без соли",
+      "aoac_fibre_g_per_100g": 5.5,
+      "total_sugars_g_per_100g": 5.9,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-313",
+      "name_ru": "Молоко 1,5–2%",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 4.7,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-596",
+      "name_ru": "Молоко цельное",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 4.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-379",
+      "name_ru": "Йогурт натуральный нежирный",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 7.5,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-555",
+      "name_ru": "Йогурт греческий натуральный",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 4.5,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-539",
+      "name_ru": "Творог зернёный / cottage cheese",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 3.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-346",
+      "name_ru": "Сыр чеддер",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "12-940",
+      "name_ru": "Яйцо куриное, варёное",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "18-323",
+      "name_ru": "Куриная грудка без кожи, гриль",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "18-356",
+      "name_ru": "Филе индейки, гриль",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "18-008",
+      "name_ru": "Говядина постная, тушёная",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-359",
+      "name_ru": "Лосось выращенный, запечённый",
+      "aoac_fibre_g_per_100g": 0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-394",
+      "name_ru": "Скумбрия, гриль",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-176",
+      "name_ru": "Сельдь, гриль",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-416",
+      "name_ru": "Тунец в рассоле, слитый",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "16-373",
+      "name_ru": "Треска, запечённая",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-503",
+      "name_ru": "Брокколи, варёная без соли",
+      "aoac_fibre_g_per_100g": 2.8,
+      "total_sugars_g_per_100g": 1.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-582",
+      "name_ru": "Капуста, сырая",
+      "aoac_fibre_g_per_100g": 3.5,
+      "total_sugars_g_per_100g": 4.4,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-497",
+      "name_ru": "Морковь, варёная без соли",
+      "aoac_fibre_g_per_100g": 2.8,
+      "total_sugars_g_per_100g": 5.5,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-517",
+      "name_ru": "Помидор, сырой",
+      "aoac_fibre_g_per_100g": 1.0,
+      "total_sugars_g_per_100g": 3.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-523",
+      "name_ru": "Огурец с кожурой, сырой",
+      "aoac_fibre_g_per_100g": 0.7,
+      "total_sugars_g_per_100g": 1.2,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-524",
+      "name_ru": "Перец красный, сырой",
+      "aoac_fibre_g_per_100g": 2.2,
+      "total_sugars_g_per_100g": 4.2,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-521",
+      "name_ru": "Шпинат молодой, сырой",
+      "aoac_fibre_g_per_100g": 1.0,
+      "total_sugars_g_per_100g": 0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-633",
+      "name_ru": "Свёкла, варёная без соли",
+      "aoac_fibre_g_per_100g": 2.6,
+      "total_sugars_g_per_100g": 10.9,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-499",
+      "name_ru": "Лук репчатый, сырой",
+      "aoac_fibre_g_per_100g": 2.2,
+      "total_sugars_g_per_100g": 6.2,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-244",
+      "name_ru": "Чеснок, сырой",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 1.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-513",
+      "name_ru": "Цветная капуста, варёная без соли",
+      "aoac_fibre_g_per_100g": 1.9,
+      "total_sugars_g_per_100g": 2.4,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-628",
+      "name_ru": "Кабачок, варёный без соли",
+      "aoac_fibre_g_per_100g": 0.8,
+      "total_sugars_g_per_100g": 1.7,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "13-505",
+      "name_ru": "Шампиньоны, сырые",
+      "aoac_fibre_g_per_100g": 0.7,
+      "total_sugars_g_per_100g": 0.3,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-319",
+      "name_ru": "Яблоко с кожурой",
+      "aoac_fibre_g_per_100g": 1.2,
+      "total_sugars_g_per_100g": 11.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-318",
+      "name_ru": "Банан, мякоть",
+      "aoac_fibre_g_per_100g": 1.4,
+      "total_sugars_g_per_100g": 18.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-327",
+      "name_ru": "Апельсин, мякоть",
+      "aoac_fibre_g_per_100g": 1.2,
+      "total_sugars_g_per_100g": 8.2,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-324",
+      "name_ru": "Клубника, сырая",
+      "aoac_fibre_g_per_100g": 3.8,
+      "total_sugars_g_per_100g": 6.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-325",
+      "name_ru": "Черника / голубика",
+      "aoac_fibre_g_per_100g": 1.5,
+      "total_sugars_g_per_100g": 9.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-321",
+      "name_ru": "Груша с кожурой",
+      "aoac_fibre_g_per_100g": 2.7,
+      "total_sugars_g_per_100g": 10.9,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "preferred_source",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-896",
+      "name_ru": "Миндаль",
+      "aoac_fibre_g_per_100g": 12.5,
+      "total_sugars_g_per_100g": 4.5,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-879",
+      "name_ru": "Грецкий орех",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 2.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-842",
+      "name_ru": "Семена тыквы",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 1.1,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-845",
+      "name_ru": "Семена подсолнечника",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 1.7,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "14-844",
+      "name_ru": "Кунжут",
+      "aoac_fibre_g_per_100g": null,
+      "total_sugars_g_per_100g": 0.4,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "17-038",
+      "name_ru": "Масло оливковое",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "17-041",
+      "name_ru": "Масло рапсовое",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "17-045",
+      "name_ru": "Масло подсолнечное",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.0,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    },
+    {
+      "cofid_code": "17-661",
+      "name_ru": "Масло сливочное несолёное",
+      "aoac_fibre_g_per_100g": 0.0,
+      "total_sugars_g_per_100g": 0.6,
+      "free_sugars_g_per_100g": null,
+      "carbohydrate_source_class": "other_or_not_applicable",
+      "source": "CoFID 2021, table 1.3 Proximates",
+      "source_url": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid"
+    }
+  ]
+}

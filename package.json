@@ -12,8 +12,23 @@
     "start:dev": "nest start --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:browser:catalog": "node test/catalog-admin.browser.mjs",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy"
+    ,"fat-profiles:check": "node scripts/run-food-catalog-operation.mjs import-fat-profiles",
+    "carbohydrate-context:check": "node scripts/run-food-catalog-operation.mjs import-carbohydrate-context",
+    "carbohydrate-quality:check": "node scripts/run-food-catalog-operation.mjs import-carbohydrate-quality",
+    "food-products:seed-local": "node scripts/run-food-catalog-operation.mjs seed-local",
+    "food-products:sync-seafood": "node scripts/run-food-catalog-operation.mjs sync-seafood",
+    "food-products:sync-dairy-eggs-fat": "node scripts/run-food-catalog-operation.mjs sync-dairy-eggs-fat",
+    "food-products:sync-processed-meat": "node scripts/run-food-catalog-operation.mjs sync-processed-meat",
+    "food-products:sync-salt-coffee": "node scripts/run-food-catalog-operation.mjs sync-salt-coffee",
+    "food-products:sync-photo-001": "node scripts/run-food-catalog-operation.mjs sync-photo-001-products"
+    ,"food-products:sync-photo-001-minerals": "node scripts/run-food-catalog-operation.mjs sync-photo-001-minerals",
+    "food-products:sync-photo-001-vitamins": "node scripts/run-food-catalog-operation.mjs sync-photo-001-vitamins"
+    ,"food-products:audit-ua": "node scripts/audit-ukrainian-food-catalog.mjs"
+    ,"food-products:sync-ua-priority": "node scripts/run-food-catalog-operation.mjs sync-ua-priority"
+    ,"food-products:audit-versions": "node scripts/audit-food-product-card-versions.mjs"
   },
   "engines": {
     "node": ">=22 <23"

@@ -1,0 +1,29 @@
+{
+  "case_id": "PHOTO-001",
+  "days": 1,
+  "source": "../tmp/fooddata-research/photo-payload.json",
+  "items": [
+    {"mealKey":"breakfast","cofidCode":"12-962","massG":138,"sourceText":"Яйца жареные — 3 шт.; 3 × 46 г"},
+    {"mealKey":"breakfast","cofidCode":"17-661","massG":14.2,"sourceText":"Масло сливочное — 1 ст. л.; USDA SR: 14,2 г/ст. л."},
+    {"mealKey":"breakfast","cofidCode":"13-521","massG":33.3333333333,"sourceText":"Листовой салат — шпинат; 1/3 от смеси 100 г"},
+    {"mealKey":"breakfast","cofidCode":"13-522","massG":33.3333333333,"sourceText":"Листовой салат — руккола; 1/3 от смеси 100 г"},
+    {"mealKey":"breakfast","cofidCode":"13-520","massG":33.3333333333,"sourceText":"Листовой салат — айсберг; прокси средний листовой салат; 1/3 от смеси 100 г"},
+    {"mealKey":"breakfast","cofidCode":"17-165","massG":250,"sourceText":"Чай без сахара — 250 мл; 1 мл ≈ 1 г"},
+    {"mealKey":"lunch","cofidCode":"13-628","massG":40,"sourceText":"Тушёные овощи — кабачок; 1/5 от смеси 200 г"},
+    {"mealKey":"lunch","cofidCode":"13-497","massG":40,"sourceText":"Тушёные овощи — морковь; 1/5 от смеси 200 г"},
+    {"mealKey":"lunch","cofidCode":"13-513","massG":40,"sourceText":"Тушёные овощи — цветная капуста; 1/5 от смеси 200 г"},
+    {"mealKey":"lunch","cofidCode":"13-503","massG":40,"sourceText":"Тушёные овощи — брокколи; 1/5 от смеси 200 г"},
+    {"mealKey":"lunch","cofidCode":"13-824","massG":40,"sourceText":"Тушёные овощи — укроп; 1/5 от смеси 200 г"},
+    {"mealKey":"lunch","cofidCode":"18-548","massG":250,"sourceText":"Свинина, лопатка, запечённая — 250 г; прокси pot-roasted"},
+    {"mealKey":"lunch","localKey":"LOCAL-MILK-2.5","massG":250,"sourceText":"Молоко 2,5% — 250 мл; 1 мл ≈ 1 г; интерполированная карточка"},
+    {"mealKey":"dinner","cofidCode":"13-523","massG":50,"sourceText":"Овощной салат — огурец; 1/4 от смеси 200 г"},
+    {"mealKey":"dinner","cofidCode":"13-517","massG":50,"sourceText":"Овощной салат — томат; 1/4 от смеси 200 г"},
+    {"mealKey":"dinner","cofidCode":"13-524","massG":50,"sourceText":"Овощной салат — перец; 1/4 от смеси 200 г"},
+    {"mealKey":"dinner","cofidCode":"13-499","massG":50,"sourceText":"Овощной салат — лук; 1/4 от смеси 200 г"},
+    {"mealKey":"dinner","cofidCode":"16-183","massG":102.0862538138,"sourceText":"Сельдь солёная — 150 г с костями; съедобная доля 0,681; прокси маринованная"},
+    {"mealKey":"dinner","cofidCode":"17-171","massG":250,"sourceText":"Зелёный чай без сахара — 250 мл; 1 мл ≈ 1 г"}
+  ],
+  "salt": {"mealKey":"other","catalogKey":"SC-SALT-UNSPECIFIED","amountUnknown":true,"sourceText":"Соль добавлена умеренно; количество и йодирование неизвестны"},
+  "coffee": [],
+  "limitations": ["Один описанный день", "Повторяемость не подтверждена", "Добавленная соль не количественно определена"]
+}

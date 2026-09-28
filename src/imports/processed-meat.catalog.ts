@@ -1,0 +1,19 @@
+export type ProcessedMeatCategory='whole_meat_comparator'|'ham'|'salami'|'frankfurter'|'sausage'|'bacon'|'pate'|'canned_meat'|'composite_poultry'|'composite_meat';
+export type ProcessedMeatProfile={cofidCode:string;category:ProcessedMeatCategory;processed:boolean;proteinPer100g:number;saturatedFatPer100g:number|null;sodiumMgPer100g:number|null;processingClass:'minimally_processed'|'processed'|'composite_processed';compositionFacts:string[];sourceQuality:'direct_analysis'|'composite_sample_analysis';};
+
+export const PROCESSED_MEAT_PROFILES:ProcessedMeatProfile[]=[
+  {cofidCode:'18-323',category:'whole_meat_comparator',processed:false,proteinPer100g:32,saturatedFatPer100g:.6,sodiumMgPer100g:55,processingClass:'minimally_processed',compositionFacts:['Куриная грудка без кожи, только мясо'],sourceQuality:'direct_analysis'},
+  {cofidCode:'18-356',category:'whole_meat_comparator',processed:false,proteinPer100g:35,saturatedFatPer100g:.6,sodiumMgPer100g:90,processingClass:'minimally_processed',compositionFacts:['Филе грудки индейки без кожи, только мясо'],sourceQuality:'direct_analysis'},
+  {cofidCode:'18-008',category:'whole_meat_comparator',processed:false,proteinPer100g:34.4,saturatedFatPer100g:4.1,sodiumMgPer100g:62,processingClass:'minimally_processed',compositionFacts:['Постная тушёная говядина'],sourceQuality:'direct_analysis'},
+  {cofidCode:'19-496',category:'ham',processed:true,proteinPer100g:18.4,saturatedFatPer100g:1.1,sodiumMgPer100g:800,processingClass:'processed',compositionFacts:['Добавленная вода 10–15%','Выборка включала копчёную ветчину и ветчину с мёдом'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-517',category:'salami',processed:true,proteinPer100g:20.9,saturatedFatPer100g:14.6,sodiumMgPer100g:1530,processingClass:'processed',compositionFacts:['Содержание мяса в выборке 90–100%'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-495',category:'frankfurter',processed:true,proteinPer100g:13.6,saturatedFatPer100g:9.2,sodiumMgPer100g:730,processingClass:'processed',compositionFacts:['Содержание мяса в выборке 75–90%'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-509',category:'sausage',processed:true,proteinPer100g:14.5,saturatedFatPer100g:8,sodiumMgPer100g:640,processingClass:'processed',compositionFacts:['Охлаждённые свиные колбаски, приготовленные на гриле'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-500',category:'bacon',processed:true,proteinPer100g:23.2,saturatedFatPer100g:8.1,sodiumMgPer100g:1390,processingClass:'processed',compositionFacts:['Выборка включала копчёный и некопчёный бекон'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-317',category:'pate',processed:true,proteinPer100g:12.6,saturatedFatPer100g:9.5,sodiumMgPer100g:750,processingClass:'processed',compositionFacts:['Печёночный паштет; выборка включала консервированные продукты'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-128',category:'canned_meat',processed:true,proteinPer100g:25.9,saturatedFatPer100g:5.7,sodiumMgPer100g:860,processingClass:'processed',compositionFacts:['Консервированная солонина из говядины'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'18-503',category:'composite_poultry',processed:true,proteinPer100g:14.4,saturatedFatPer100g:2.11,sodiumMgPer100g:360,processingClass:'composite_processed',compositionFacts:['Панировка или кляр','Выборка включала наггетсы и другие формованные изделия из курицы и индейки'],sourceQuality:'composite_sample_analysis'},
+  {cofidCode:'19-546',category:'composite_meat',processed:true,proteinPer100g:18.3,saturatedFatPer100g:5.22,sodiumMgPer100g:440,processingClass:'composite_processed',compositionFacts:['Говядина 62–85%','Добавлен лук'],sourceQuality:'composite_sample_analysis'},
+];
+
+export function cofidCode(sourceLabel:string|null|undefined){return /(?:^|[;\s])(?:CoFID\s*)?(\d{2}-\d{3})(?:$|[;\s])/i.exec(sourceLabel??'')?.[1]??null;}

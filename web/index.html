@@ -24,6 +24,78 @@
       <p>Загрузите один CSV-файл. Сервер проверит структуру, согласие и повторы, не сохраняя анкету в браузере.</p>
     </section>
 
+    <section id="catalog-admin" class="catalog-admin" hidden aria-labelledby="catalog-title">
+      <div class="catalog-head">
+        <div><p class="eyebrow">Администрирование</p><h2 id="catalog-title">Каталог продуктов</h2><p>Создавайте и проверяйте карточки до того, как они появятся в расчётах.</p></div>
+        <div class="catalog-head-actions"><button id="catalog-duplicates" class="secondary" type="button">Возможные дубли <span id="catalog-duplicate-count">—</span></button><button id="catalog-new" class="primary compact" type="button">Новая карточка</button></div>
+      </div>
+      <section id="catalog-duplicate-panel" class="catalog-duplicate-panel" hidden aria-labelledby="catalog-duplicate-title">
+        <div class="catalog-form-head"><div><p class="eyebrow">Контроль качества</p><h3 id="catalog-duplicate-title">Сравнение возможных дублей</h3></div><button id="catalog-duplicates-close" class="secondary" type="button">Закрыть</button></div>
+        <p class="catalog-duplicate-help">Совпадения сгруппированы по нормализованному названию. Сравните значения и источники перед объединением.</p>
+        <div id="catalog-duplicate-groups" class="catalog-duplicate-groups"></div>
+      </section>
+      <div class="catalog-layout">
+        <div class="catalog-browser">
+          <div class="catalog-filters">
+            <label>Поиск<input id="catalog-search" type="search" placeholder="Название продукта"></label>
+            <label>Статус<select id="catalog-status"><option value="">Все</option><option value="draft">Черновики</option><option value="verified">Проверенные</option><option value="retired">Архивные</option></select></label>
+          </div>
+          <small id="catalog-list-status" role="status" aria-live="polite">Загрузка каталога…</small>
+          <div id="catalog-list" class="catalog-list"></div>
+        </div>
+        <form id="catalog-form" class="catalog-form" hidden novalidate>
+          <div class="catalog-form-head"><div><p class="eyebrow" id="catalog-form-kicker">Черновик</p><h3 id="catalog-form-title">Новая карточка</h3></div><span id="catalog-card-badge" class="badge">draft</span></div>
+          <div class="catalog-fields">
+            <label class="wide">Название<input id="catalog-name" required maxlength="300"></label>
+            <label>Белок, г/100 г<input id="catalog-protein" type="number" min="0" max="1000" step="0.001" required></label>
+            <label>Энергия, ккал/100 г<input id="catalog-energy" type="number" min="0" max="1000" step="0.001"></label>
+            <label>Углеводы, г/100 г<input id="catalog-carbohydrate" type="number" min="0" max="1000" step="0.001"></label>
+            <label>Клетчатка, г/100 г<input id="catalog-fibre" type="number" min="0" max="1000" step="0.001"></label>
+            <label>Жиры, г/100 г<input id="catalog-fat" type="number" min="0" max="1000" step="0.001"></label>
+            <label>Происхождение<select id="catalog-origin"><option value="plant">Растительное</option><option value="animal">Животное</option><option value="mixed">Смешанное</option></select></label>
+            <label>Растительная доля, %<input id="catalog-plant-share" type="number" min="0" max="100" step="1" value="100" required></label>
+            <label class="wide">Источник<input id="catalog-source-label" required maxlength="500" placeholder="Название базы или этикетки"></label>
+            <label class="wide">Ссылка или идентификатор источника<input id="catalog-source-reference" maxlength="1000" placeholder="Обязательно для проверки"></label>
+          </div>
+            <details class="catalog-profile-fields">
+              <summary>Расширенные данные</summary>
+              <p>Выберите статус нужного показателя и заполните значение с источником. Для статуса «нет данных» значение сохраняется как <code>null</code>.</p>
+              <section class="catalog-nutrient-section"><h4>Минералы</h4><div id="catalog-mineral-editor" class="catalog-nutrient-editor"></div></section>
+              <section class="catalog-nutrient-section"><h4>Витамины</h4><div id="catalog-vitamin-editor" class="catalog-nutrient-editor"></div></section>
+              <section class="catalog-enrichment-section" aria-labelledby="catalog-enrichment-title">
+                <h4 id="catalog-enrichment-title">Профиль обогащения</h4>
+                <p>Подтверждение относится только к указанному продукту или региональной категории. Добавленные нутриенты не выводятся из естественного состава автоматически.</p>
+                <div class="catalog-enrichment-fields">
+                  <label>Статус<select id="catalog-enrichment-status"><option value="unknown">Неизвестно</option><option value="confirmed_not_fortified">Подтверждено: не обогащён</option><option value="confirmed_fortified">Подтверждено: обогащён</option></select></label>
+                  <label>Основание доказательства<select id="catalog-enrichment-evidence"><option value="none">Нет</option><option value="label">Этикетка</option><option value="exact_product_record">Запись точного продукта</option><option value="regional_mandate">Региональное требование</option></select></label>
+                  <label>Область идентичности<select id="catalog-enrichment-scope"><option value="generic">Общий продукт</option><option value="exact_product">Точный продукт</option><option value="regional_category">Региональная категория</option></select></label>
+                  <label>Рынки (ISO-коды через запятую)<input id="catalog-enrichment-markets" placeholder="UA, PL" maxlength="200"></label>
+                  <label class="wide">Ограничение или пояснение<textarea id="catalog-enrichment-limitation" rows="2" maxlength="1000" placeholder="Почему статус неизвестен или где действует подтверждение"></textarea></label>
+                </div>
+                <div id="catalog-enrichment-editor" class="catalog-nutrient-editor catalog-enrichment-editor"></div>
+                <small id="catalog-enrichment-help" class="catalog-enrichment-help"></small>
+              </section>
+              <details class="catalog-raw-profiles"><summary>Технические JSON профили</summary>
+                <label>Минеральный JSON<textarea id="catalog-mineral-profile" rows="8" spellcheck="false"></textarea></label>
+                <label>Витаминный JSON<textarea id="catalog-vitamin-profile" rows="8" spellcheck="false"></textarea></label>
+                <label>Профиль обогащения (формируется автоматически)<textarea id="catalog-enrichment-profile" rows="8" spellcheck="false" readonly></textarea></label>
+              </details>
+            </details>
+          <details id="catalog-history" class="catalog-history" hidden>
+            <summary>История изменений <span id="catalog-history-count">—</span></summary>
+            <p>Журнал доступен только для просмотра. Исторические события нельзя восстановить или изменить.</p>
+            <div id="catalog-history-list" class="catalog-history-list"></div>
+            <h5>Сравнение версий</h5>
+            <div id="catalog-version-list" class="catalog-version-list"></div>
+            <small id="catalog-history-status" role="status" aria-live="polite"></small>
+          </details>
+          <div id="catalog-form-notice" class="catalog-inline-notice" role="status" aria-live="polite"></div>
+          <div class="catalog-actions"><button id="catalog-cancel" class="secondary" type="button">Закрыть</button><button id="catalog-verify" class="secondary" type="button">Проверить карточку</button><button id="catalog-save" class="primary compact" type="submit">Сохранить черновик</button></div>
+        </form>
+        <div id="catalog-empty" class="catalog-empty"><strong>Выберите карточку</strong><p>Или создайте новый черновик.</p></div>
+      </div>
+    </section>
+
     <section class="workspace" aria-label="Загрузка анкеты">
       <aside class="steps" aria-label="Этапы импорта">
         <ol>
@@ -97,6 +169,183 @@
           <div class="analysis-head"><div><p class="eyebrow">Принятая анкета</p><h2 id="analysis-title">Рабочий обзор</h2></div><button id="close-analysis" class="secondary" type="button">Закрыть</button></div>
           <p id="analysis-disclaimer" class="analysis-disclaimer"></p>
           <div id="analysis-sections" class="analysis-sections"></div>
+          <section class="protein-target nutrition-summary" aria-labelledby="nutrition-summary-title"><div class="note-head"><div><p class="eyebrow">Все нутриентные модули</p><h3 id="nutrition-summary-title">Общая сводка</h3></div><button id="refresh-nutrition-summary" class="secondary compact" type="button">Обновить</button></div><dl id="nutrition-summary-totals" class="intake-summary"></dl><div id="nutrition-summary-modules" class="nutrition-summary-modules"></div><div><h4>Приоритетная тройка</h4><div id="nutrition-summary-priorities" class="nutrition-summary-priorities"></div><details id="priority-review"><summary>Изменить профессиональные приоритеты</summary><p class="note-help">Выберите до трёх пунктов. Порядок полей определяет итоговый порядок. Обоснование обязательно и сохраняется в истории решений.</p><div id="priority-review-selects" class="priority-review-selects"></div><label>Обоснование решения<textarea id="priority-review-reason" maxlength="2000" rows="3"></textarea></label><button id="save-priority-review" type="button">Сохранить решение</button><small id="priority-review-status"></small></details></div><small id="nutrition-summary-status"></small></section>
+          <section class="protein-target professional-conclusion" aria-labelledby="professional-conclusion-title"><div id="conclusion-print-toolbar" class="conclusion-print-toolbar print-preview-only"><strong>Предпросмотр A4</strong><div><button id="execute-professional-conclusion-print" class="primary compact" type="button">Распечатать</button><button id="close-professional-conclusion-print" class="secondary compact" type="button">Закрыть предпросмотр</button></div></div><div class="note-head"><div><p class="eyebrow">Только для консультанта</p><h3 id="professional-conclusion-title">Профессиональное заключение</h3></div><div class="conclusion-head-actions"><button id="print-professional-conclusion" class="secondary compact" type="button">Предпросмотр печати</button><button id="refresh-professional-conclusion" class="secondary compact" type="button">Обновить</button></div></div><div id="professional-conclusion-generated"></div><div class="conclusion-editor"><label>Интерпретация приоритетов<textarea id="conclusion-priority-interpretation" maxlength="4000" rows="4"></textarea></label><label>Интерпретация поддерживающих фактов<textarea id="conclusion-supporting-interpretation" maxlength="4000" rows="3"></textarea></label><label>Вопросы для уточнения<textarea id="conclusion-follow-up" maxlength="4000" rows="3"></textarea></label><label>Итоговая профессиональная заметка<textarea id="conclusion-final-note" maxlength="4000" rows="4"></textarea></label><label class="conclusion-deviation"><input id="conclusion-deviates" type="checkbox"> Заключение отклоняется от автоматических выводов</label><label id="conclusion-deviation-reason-label" hidden>Причина отклонения<textarea id="conclusion-deviation-reason" maxlength="4000" rows="3"></textarea></label><div class="conclusion-controls"><label>Статус<select id="conclusion-status"><option value="draft">Черновик</option><option value="needs_clarification">Требует уточнения</option><option value="ready">Готово</option></select></label><button id="save-professional-conclusion" type="button">Сохранить заключение</button></div><small id="professional-conclusion-status"></small></div><div id="conclusion-print-editorial" class="conclusion-print-editorial print-only" aria-hidden="true"></div></section>
+          <section class="protein-target vitamin-d-card" aria-labelledby="vitamin-d-title">
+            <div class="note-head"><div><p class="eyebrow">Первый витаминный модуль</p><h3 id="vitamin-d-title">Витамин D из рациона</h3></div><span id="vitamin-d-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Показывает только пищевое поступление. Не оценивает обеспеченность организма и не устанавливает дефицит.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-d-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-d-target">15 мкг</strong></div><div><small>Покрытие обогащения</small><strong id="vitamin-d-enrichment-coverage">—</strong></div></div>
+            <p id="vitamin-d-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-d-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-d-status"></small><button id="refresh-vitamin-d" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-d-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-d-client-title"></h4><p id="vitamin-d-client-summary"></p><ul id="vitamin-d-client-points"></ul><p id="vitamin-d-client-next"></p><small id="vitamin-d-client-disclaimer"></small><div class="note-actions"><small id="vitamin-d-client-approval-status"></small><button id="approve-vitamin-d-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b12-card" aria-labelledby="vitamin-b12-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b12-title">Витамин B12 из рациона</h3></div><span id="vitamin-b12-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный B12 учитываются отдельно. Пищевой расчёт не устанавливает дефицит и не заменяет оценку медицинского контекста.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b12-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-b12-target">2,4 мкг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b12-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b12-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p>
+            <p id="vitamin-b12-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b12-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b12-status"></small><button id="refresh-vitamin-b12" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <section class="protein-target folate-card" aria-labelledby="folate-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="folate-title">Фолат из рациона</h3></div><span id="folate-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный фолат учитываются отдельно. Пищевой расчёт не устанавливает дефицит и не заменяет оценку медицинского контекста.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="folate-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="folate-target">400 мкг</strong></div><div><small>Покрытие справочными данными</small><strong id="folate-natural-coverage">—</strong></div></div>
+            <p id="folate-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p>
+            <p id="folate-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="folate-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="folate-status"></small><button id="refresh-folate" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="b12-folate-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="b12-folate-client-title"></h4><p id="b12-folate-client-summary"></p><ul id="b12-folate-client-points"></ul><p id="b12-folate-client-next"></p><small id="b12-folate-client-disclaimer"></small><div class="note-actions"><small id="b12-folate-client-approval-status"></small><button id="approve-b12-folate-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-c-card" aria-labelledby="vitamin-c-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-c-title">Витамин C из рациона</h3></div><span id="vitamin-c-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин C учитываются отдельно. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-c-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-c-target">90 мг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-c-natural-coverage">—</strong></div></div>
+            <p id="vitamin-c-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-c-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-c-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-c-status"></small><button id="refresh-vitamin-c" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-c-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-c-client-title"></h4><p id="vitamin-c-client-summary"></p><ul id="vitamin-c-client-points"></ul><p id="vitamin-c-client-next"></p><small id="vitamin-c-client-disclaimer"></small><div class="note-actions"><small id="vitamin-c-client-approval-status"></small><button id="approve-vitamin-c-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-a-card" aria-labelledby="vitamin-a-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-a-title">Витамин A из рациона</h3></div><span id="vitamin-a-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин A учитываются отдельно в микрограммах ретинолового эквивалента. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-a-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-a-target">900 мкг РЭ</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-a-natural-coverage">—</strong></div></div>
+            <p id="vitamin-a-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-a-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-a-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-a-status"></small><button id="refresh-vitamin-a" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-a-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-a-client-title"></h4><p id="vitamin-a-client-summary"></p><ul id="vitamin-a-client-points"></ul><p id="vitamin-a-client-next"></p><small id="vitamin-a-client-disclaimer"></small><div class="note-actions"><small id="vitamin-a-client-approval-status"></small><button id="approve-vitamin-a-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-e-card" aria-labelledby="vitamin-e-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-e-title">Витамин E из рациона</h3></div><span id="vitamin-e-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин E учитываются отдельно в миллиграммах α-токоферолового эквивалента CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-e-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-e-target">15 мг α-ТЭ</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-e-natural-coverage">—</strong></div></div>
+            <p id="vitamin-e-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-e-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-e-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-e-status"></small><button id="refresh-vitamin-e" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-e-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-e-client-title"></h4><p id="vitamin-e-client-summary"></p><ul id="vitamin-e-client-points"></ul><p id="vitamin-e-client-next"></p><small id="vitamin-e-client-disclaimer"></small><div class="note-actions"><small id="vitamin-e-client-approval-status"></small><button id="approve-vitamin-e-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b1-card" aria-labelledby="vitamin-b1-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b1-title">Витамин B1 из рациона</h3></div><span id="vitamin-b1-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин B1 учитываются отдельно в миллиграммах CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b1-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-b1-target">1,2 мг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b1-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b1-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b1-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b1-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b1-status"></small><button id="refresh-vitamin-b1" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-b1-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b1-client-title"></h4><p id="vitamin-b1-client-summary"></p><ul id="vitamin-b1-client-points"></ul><p id="vitamin-b1-client-next"></p><small id="vitamin-b1-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b1-client-approval-status"></small><button id="approve-vitamin-b1-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b2-card" aria-labelledby="vitamin-b2-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b2-title">Витамин B2 из рациона</h3></div><span id="vitamin-b2-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин B2 (рибофлавин) учитываются отдельно в миллиграммах CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b2-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-b2-target">1,3 мг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b2-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b2-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b2-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b2-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b2-status"></small><button id="refresh-vitamin-b2" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-b2-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b2-client-title"></h4><p id="vitamin-b2-client-summary"></p><ul id="vitamin-b2-client-points"></ul><p id="vitamin-b2-client-next"></p><small id="vitamin-b2-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b2-client-approval-status"></small><button id="approve-vitamin-b2-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b3-card" aria-labelledby="vitamin-b3-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b3-title">Витамин B3 из рациона</h3></div><span id="vitamin-b3-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и добавленный витамин B3 (ниацин) учитываются отдельно в миллиграммах ниацинового эквивалента CoFID. Отсутствующие значения не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b3-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-b3-target">16 мг НЭ</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b3-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b3-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b3-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b3-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b3-status"></small><button id="refresh-vitamin-b3" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-b3-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b3-client-title"></h4><p id="vitamin-b3-client-summary"></p><ul id="vitamin-b3-client-points"></ul><p id="vitamin-b3-client-next"></p><small id="vitamin-b3-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b3-client-approval-status"></small><button id="approve-vitamin-b3-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b5-card" aria-labelledby="vitamin-b5-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b5-title">Витамин B5 из рациона</h3></div><span id="vitamin-b5-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и подтверждённый добавленный витамин B5 (пантотенат) учитываются отдельно в миллиграммах CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b5-value">—</strong></div><div><small>Ориентир адекватного поступления</small><strong id="vitamin-b5-target">5 мг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b5-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b5-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b5-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b5-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b5-status"></small><button id="refresh-vitamin-b5" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-b5-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b5-client-title"></h4><p id="vitamin-b5-client-summary"></p><ul id="vitamin-b5-client-points"></ul><p id="vitamin-b5-client-next"></p><small id="vitamin-b5-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b5-client-approval-status"></small><button id="approve-vitamin-b5-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b6-card" aria-labelledby="vitamin-b6-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b6-title">Витамин B6 из рациона</h3></div><span id="vitamin-b6-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и подтверждённый добавленный витамин B6 учитываются отдельно в миллиграммах. Отсутствующие значения не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b6-value">—</strong></div><div><small>Рабочий ориентир</small><strong id="vitamin-b6-target">1,8 мг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b6-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b6-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b6-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b6-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b6-status"></small><button id="refresh-vitamin-b6" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-b6-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b6-client-title"></h4><p id="vitamin-b6-client-summary"></p><ul id="vitamin-b6-client-points"></ul><p id="vitamin-b6-client-next"></p><small id="vitamin-b6-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b6-client-approval-status"></small><button id="approve-vitamin-b6-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target vitamin-b7-card" aria-labelledby="vitamin-b7-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-b7-title">Витамин B7 из рациона</h3></div><span id="vitamin-b7-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и подтверждённый добавленный витамин B7 (биотин) учитываются отдельно в микрограммах CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-b7-value">—</strong></div><div><small>Ориентир адекватного поступления</small><strong id="vitamin-b7-target">40 мкг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-b7-natural-coverage">—</strong></div></div>
+            <p id="vitamin-b7-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-b7-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-b7-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-b7-status"></small><button id="refresh-vitamin-b7" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <section class="protein-target vitamin-k-card" aria-labelledby="vitamin-k-title">
+            <div class="note-head"><div><p class="eyebrow">Витаминный модуль</p><h3 id="vitamin-k-title">Витамин K из рациона</h3></div><span id="vitamin-k-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Природный и подтверждённый добавленный витамин K1 учитываются отдельно в микрограммах CoFID. Следовые значения считаются известными, отсутствующие не заменяются нулём.</p>
+            <div class="vitamin-d-summary"><div><small>Известное поступление</small><strong id="vitamin-k-value">—</strong></div><div><small>Ориентир адекватного поступления</small><strong id="vitamin-k-target">70 мкг</strong></div><div><small>Покрытие справочными данными</small><strong id="vitamin-k-natural-coverage">—</strong></div></div>
+            <p id="vitamin-k-quality-gate" class="regional-completeness">Шлюз качества ещё не рассчитан.</p><p id="vitamin-k-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+            <details><summary>Строки и ограничения</summary><div id="vitamin-k-details" class="regional-sources"></div></details>
+            <div class="note-actions"><small id="vitamin-k-status"></small><button id="refresh-vitamin-k" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
+          <aside id="vitamin-k-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-k-client-title"></h4><p id="vitamin-k-client-summary"></p><ul id="vitamin-k-client-points"></ul><p id="vitamin-k-client-next"></p><small id="vitamin-k-client-disclaimer"></small><div class="note-actions"><small id="vitamin-k-client-approval-status"></small><button id="approve-vitamin-k-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <aside id="vitamin-b7-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="vitamin-b7-client-title"></h4><p id="vitamin-b7-client-summary"></p><ul id="vitamin-b7-client-points"></ul><p id="vitamin-b7-client-next"></p><small id="vitamin-b7-client-disclaimer"></small><div class="note-actions"><small id="vitamin-b7-client-approval-status"></small><button id="approve-vitamin-b7-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+          <section class="protein-target regional-nutrients" aria-labelledby="regional-nutrients-title">
+            <div class="note-head"><div><p class="eyebrow">Единая рабочая карта</p><h3 id="regional-nutrients-title">Минералы</h3></div><span id="regional-nutrients-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p class="note-help">Магний, железо, цинк и медь рассчитываются по карточкам продуктов; селен и йод — диапазоном с учётом рынка. Это факты для консультанта, не лабораторный анализ и не автоматическая рекомендация клиенту.</p>
+            <article id="sodium-potassium-card" class="sodium-potassium-card blocked" aria-labelledby="sodium-potassium-title">
+              <div class="regional-card-head"><div><small>Баланс рациона</small><h4 id="sodium-potassium-title">Натрий и калий</h4></div><span id="sodium-potassium-badge" class="regional-confidence">Не рассчитано</span></div>
+              <div class="sodium-potassium-values">
+                <div><small>Натрий</small><strong id="sodium-value">—</strong><span id="sodium-target">Ориентир ≤ 2000 мг</span></div>
+                <div><small>Калий</small><strong id="potassium-value">—</strong><span id="potassium-target">Ориентир ≥ 3500 мг</span></div>
+              </div>
+              <p id="sodium-potassium-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p>
+              <small id="sodium-potassium-safety" class="sodium-potassium-safety" hidden></small>
+              <details><summary>Полнота и ограничения</summary><div id="sodium-potassium-details" class="regional-sources"></div></details>
+            </article>
+            <div class="regional-controls">
+              <label>Где покупались продукты<input id="regional-market" type="search" list="regional-market-options" value="Украина" autocomplete="off" placeholder="Начните вводить страну"><datalist id="regional-market-options"><option value="Украина" data-code="UA"></option><option value="Польша" data-code="PL"></option><option value="Болгария" data-code="BG"></option><option value="Хорватия" data-code="HR"></option><option value="Чехия" data-code="CZ"></option><option value="Словакия" data-code="SK"></option><option value="Румыния" data-code="RO"></option><option value="Германия" data-code="DE"></option><option value="Австрия" data-code="AT"></option><option value="Бельгия" data-code="BE"></option><option value="Нидерланды" data-code="NL"></option><option value="Франция" data-code="FR"></option><option value="Италия" data-code="IT"></option><option value="Испания" data-code="ES"></option><option value="Португалия" data-code="PT"></option><option value="Греция" data-code="GR"></option><option value="Венгрия" data-code="HU"></option><option value="Словения" data-code="SI"></option><option value="Сербия" data-code="RS"></option><option value="Черногория" data-code="ME"></option><option value="Босния и Герцеговина" data-code="BA"></option><option value="Северная Македония" data-code="MK"></option><option value="Албания" data-code="AL"></option><option value="Молдова" data-code="MD"></option><option value="Литва" data-code="LT"></option><option value="Латвия" data-code="LV"></option><option value="Эстония" data-code="EE"></option><option value="Дания" data-code="DK"></option><option value="Швеция" data-code="SE"></option><option value="Финляндия" data-code="FI"></option><option value="Норвегия" data-code="NO"></option><option value="Исландия" data-code="IS"></option><option value="Ирландия" data-code="IE"></option><option value="Великобритания" data-code="GB"></option><option value="Швейцария" data-code="CH"></option><option value="Люксембург" data-code="LU"></option><option value="Кипр" data-code="CY"></option><option value="Мальта" data-code="MT"></option><option value="Турция" data-code="TR"></option><option value="Несколько стран" data-code="MULTI"></option><option value="Неизвестно" data-code="UNKNOWN"></option></datalist></label>
+              <label>Сохранить для<select id="regional-market-scope"><option value="client">Всех рационов клиента</option><option value="submission">Только этого рациона</option></select></label>
+              <label>Период<select id="regional-period"><option value="single_day">Один день</option><option value="habitual">Обычный рацион</option></select></label>
+              <label>Ориентир Mg, мг<input id="magnesium-target" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>Ориентир Fe, мг<input id="iron-target" type="number" min="0.1" step="0.1" placeholder="не задан"></label>
+              <label>Ориентир Zn, мг<input id="zinc-target" type="number" min="0.1" step="0.1" placeholder="не задан"></label>
+              <label>Ориентир Cu, мкг<input id="copper-target" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>Ориентир Mn, мг<input id="manganese-target" type="number" min="0.1" step="0.1" placeholder="не задан"></label>
+              <label>Ориентир Mo, мкг<input id="molybdenum-target" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>Ориентир Se, мкг<input id="selenium-target" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>UL Se, мкг<input id="selenium-ul" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>Ориентир I, мкг<input id="iodine-target" type="number" min="1" step="1" placeholder="не задан"></label>
+              <label>UL I, мкг<input id="iodine-ul" type="number" min="1" step="1" placeholder="не задан"></label>
+            </div>
+            <div id="regional-nutrient-cards" class="regional-nutrient-cards">
+              <article class="regional-nutrient-card" data-nutrient="calcium"><div class="regional-card-head"><h4>Кальций</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="phosphorus"><div class="regional-card-head"><h4>Фосфор</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="magnesium"><div class="regional-card-head"><h4>Магний</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="iron"><div class="regional-card-head"><h4>Железо</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="zinc"><div class="regional-card-head"><h4>Цинк</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="copper"><div class="regional-card-head"><h4>Медь</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="manganese"><div class="regional-card-head"><h4>Марганец</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="molybdenum"><div class="regional-card-head"><h4>Молибден</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="selenium"><div class="regional-card-head"><h4>Селен</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+              <article class="regional-nutrient-card" data-nutrient="iodine"><div class="regional-card-head"><h4>Йод</h4><span class="regional-confidence">—</span></div><strong class="regional-value">—</strong><small class="regional-completeness"></small><p class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div class="regional-sources"></div></details></article>
+            </div>
+            <article id="pral-card" class="regional-nutrient-card" aria-labelledby="pral-title"><div class="regional-card-head"><h4 id="pral-title">Потенциальная почечная кислотная нагрузка (PRAL)</h4><span id="pral-confidence" class="regional-confidence">—</span></div><strong id="pral-value" class="regional-value">—</strong><small id="pral-completeness" class="regional-completeness"></small><p id="pral-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Формула и компоненты</summary><div id="pral-details" class="regional-sources"></div></details></article>
+            <article id="oxalate-calcium-card" class="regional-nutrient-card" aria-labelledby="oxalate-calcium-title"><div class="regional-card-head"><h4 id="oxalate-calcium-title">Оксалатная нагрузка и кальций</h4><span id="oxalate-calcium-confidence" class="regional-confidence">—</span></div><strong id="oxalate-calcium-value" class="regional-value">—</strong><small id="oxalate-calcium-completeness" class="regional-completeness"></small><p id="oxalate-calcium-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Выявленные факторы и ограничения</summary><div id="oxalate-calcium-details" class="regional-sources"></div></details></article>
+            <article id="calcium-phosphorus-card" class="regional-nutrient-card" aria-labelledby="calcium-phosphorus-title"><div class="regional-card-head"><h4 id="calcium-phosphorus-title">Кальций–фосфор и фосфатные добавки</h4><span id="calcium-phosphorus-confidence" class="regional-confidence">—</span></div><strong id="calcium-phosphorus-value" class="regional-value">—</strong><small id="calcium-phosphorus-completeness" class="regional-completeness"></small><p id="calcium-phosphorus-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Фосфатные добавки и ограничения</summary><div id="calcium-phosphorus-details" class="regional-sources"></div></details></article>
+            <article id="purine-load-card" class="regional-nutrient-card" aria-labelledby="purine-load-title"><div class="regional-card-head"><h4 id="purine-load-title">Пуриновая нагрузка</h4><span id="purine-load-confidence" class="regional-confidence">—</span></div><strong id="purine-load-value" class="regional-value">—</strong><small id="purine-load-completeness" class="regional-completeness"></small><p id="purine-load-interpretation" class="regional-interpretation">Сначала сохраните рацион.</p><details><summary>Источники и ограничения</summary><div id="purine-load-details" class="regional-sources"></div></details></article>
+            <div><h4>Приоритеты проверки</h4><div id="mineral-priorities" class="nutrition-summary-priorities"><p>Задайте рабочие ориентиры, чтобы ранжировать сигналы.</p></div></div>
+            <aside id="mineral-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="mineral-client-title"></h4><p id="mineral-client-summary"></p><ul id="mineral-client-points"></ul><p id="mineral-client-next"></p><small id="mineral-client-disclaimer"></small><div class="note-actions"><small id="mineral-client-approval-status"></small><button id="approve-mineral-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+            <div class="note-actions"><small id="regional-nutrients-status" role="status" aria-live="polite"></small><div><button id="save-mineral-targets" class="primary compact" type="button">Сохранить ориентиры</button> <button id="save-regional-market" class="secondary compact" type="button">Сохранить рынок</button> <button id="refresh-regional-nutrients" class="secondary compact" type="button">Пересчитать</button></div></div>
+          </section>
+          <section class="protein-target carbohydrate-card" aria-labelledby="carbohydrate-card-title">
+            <div class="note-head"><div><p class="eyebrow">Профессиональная оценка</p><h3 id="carbohydrate-card-title">Углеводы</h3></div><span id="carbohydrate-data-badge" class="carbohydrate-data-badge">Не рассчитано</span></div>
+            <p id="carbohydrate-basis" class="note-help"></p>
+            <div id="carbohydrate-facts" class="carbohydrate-facts"></div>
+            <p id="carbohydrate-limitation" class="carbohydrate-limitation" hidden></p>
+            <details id="carbohydrate-details" class="carbohydrate-details" hidden><summary>Как рассчитано</summary><dl id="carbohydrate-metrics" class="intake-summary"></dl><div><h4>Эпизоды типичного дня</h4><div id="carbohydrate-episodes" class="carbohydrate-episodes"></div></div></details>
+            <aside id="carbohydrate-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="carbohydrate-client-title"></h4><p id="carbohydrate-client-summary"></p><ul id="carbohydrate-client-points"></ul><p id="carbohydrate-client-next"></p><small id="carbohydrate-client-disclaimer"></small><div class="note-actions"><small id="carbohydrate-client-approval-status"></small><button id="approve-carbohydrate-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+            <div class="note-actions"><small id="carbohydrate-status" role="status" aria-live="polite"></small><button id="refresh-carbohydrate" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
           <section class="protein-target" aria-labelledby="protein-target-title">
             <div class="note-head"><div><p class="eyebrow">Индивидуальный ориентир</p><h3 id="protein-target-title">Белковый диапазон</h3></div><span id="protein-target-version" class="note-version">Версия 0</span></div>
             <p class="note-help">Встроенный расчёт использует пол, рост, массу и округлённый до ближайшего целого ИМТ. Нестандартные значения вводятся вручную.</p>
@@ -111,17 +360,67 @@
             <textarea id="protein-reason" maxlength="1000" rows="3" placeholder="Необязательно для встроенного расчёта"></textarea>
             <div class="note-actions"><small id="protein-save-status" role="status" aria-live="polite"></small><button id="save-protein-target" class="primary compact" type="button" disabled>Сохранить ориентир</button></div>
           </section>
+          <section class="protein-target fat-target" aria-labelledby="fat-target-title">
+            <div class="note-head"><div><p class="eyebrow">Модуль жиров</p><h3 id="fat-target-title">Ориентир общего жира</h3></div><span id="fat-target-version" class="note-version">Версия 0</span></div>
+            <p class="note-help">Основной расчёт — доля энергии. Граммы на килограмм и коридор 50–60 г при снижении массы — проверочные показатели.</p>
+            <div class="protein-grid fat-grid">
+              <label>Расчётная энергия, ккал<input id="fat-energy" type="number" min="800" max="8000" step="1"></label>
+              <label>Масса, кг<input id="fat-weight" type="number" min="25" max="400" step="0.1"></label>
+              <label>Цель<select id="fat-goal"><option value="maintain">Поддержание массы</option><option value="weight_loss">Снижение массы</option></select></label>
+              <label>Физическая активность<select id="fat-activity"><option value="low">Низкая</option><option value="moderate">Умеренная</option><option value="high">Высокая</option><option value="very_high">Очень высокая</option></select></label>
+            </div>
+            <dl id="fat-target-summary" class="intake-summary" hidden></dl><p id="fat-guide-note" class="note-help"></p>
+            <label>Обоснование или уточнение<textarea id="fat-reason" rows="3" maxlength="1000"></textarea></label>
+            <div class="note-actions"><small id="fat-save-status" role="status" aria-live="polite"></small><button id="save-fat-target" class="primary compact" type="button" disabled>Сохранить ориентир</button></div>
+          </section>
+          <section class="protein-target fat-composition" aria-labelledby="fat-composition-title">
+            <div class="note-head"><div><p class="eyebrow">Фактический рацион</p><h3 id="fat-composition-title">Состав жиров за день</h3></div><span id="fat-intake-version" class="note-version">Рацион 0</span></div>
+            <p class="note-help">Расчёт использует те же продукты и порции, что и блок белка. Неизвестные значения жирных кислот не считаются нулём.</p>
+            <dl id="fat-composition-summary" class="intake-summary" hidden></dl>
+            <div id="fat-composition-signals" class="fat-signals"></div>
+            <p id="palmitic-note" class="note-help"></p>
+            <aside id="fat-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="fat-client-title"></h4><p id="fat-client-summary"></p><ul id="fat-client-points"></ul><p id="fat-client-next"></p><small id="fat-client-disclaimer"></small><div class="note-actions"><small id="fat-client-approval-status"></small><button id="approve-fat-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+            <div class="fat-recommendation-head"><h4>Варианты коррекции</h4><small>Для обсуждения с консультантом, не назначение</small></div>
+            <div id="fat-recommendations" class="fat-recommendations"></div>
+            <div class="note-actions"><small id="fat-intake-status" role="status" aria-live="polite"></small><button id="refresh-fat-intake" class="secondary compact" type="button">Пересчитать</button></div>
+          </section>
           <section class="protein-intake" aria-labelledby="protein-intake-title">
             <div class="note-head"><div><p class="eyebrow">Фактический рацион</p><h3 id="protein-intake-title">Белок за день</h3></div><span id="protein-intake-version" class="note-version">Версия 0</span></div>
             <p class="note-help">Добавляйте только позиции с проверенной карточкой продукта. Итоги рассчитывает сервер по массе и снимку значения на 100 г.</p>
+            <div class="product-search">
+              <label for="intake-product-search">Поиск по каталогу</label>
+              <input id="intake-product-search" type="search" autocomplete="off" placeholder="Например: гречка, кефир, яйцо" aria-describedby="intake-product-search-status">
+              <small id="intake-product-search-status" role="status" aria-live="polite"></small>
+            </div>
             <div class="intake-entry-grid">
               <label>Приём пищи<select id="intake-meal"><option value="breakfast">Завтрак</option><option value="snack_1">Первый перекус</option><option value="lunch">Обед</option><option value="snack_2">Второй перекус</option><option value="dinner">Ужин</option><option value="bedtime">Перед сном</option><option value="other">Другое</option></select></label>
               <label>Проверенный продукт<select id="intake-product"><option value="">Нет проверенных карточек</option></select></label>
               <label>Масса, г<input id="intake-mass" type="number" min="0.1" max="5000" step="0.1"></label>
-              <button id="add-intake-item" class="secondary" type="button" disabled>Добавить</button>
+              <button id="add-intake-item" class="secondary" type="button" disabled>Добавить в рацион</button>
             </div>
+            <aside id="enrichment-evidence" class="enrichment-evidence unknown" aria-live="polite">
+              <div><strong id="enrichment-status">Обогащение: выберите продукт</strong><small id="enrichment-source">Обогащение общего продукта не предполагается автоматически.</small></div>
+              <ul id="enrichment-nutrients"></ul>
+            </aside>
+            <aside id="intake-simulator" class="intake-simulator" hidden aria-live="polite">
+              <div><small>Выбранная порция</small><strong id="sim-portion">—</strong></div>
+              <div><small>Новый итог за день</small><strong id="sim-total">—</strong></div>
+              <div><small>Относительно ориентира</small><strong id="sim-range">—</strong></div>
+            </aside>
             <div id="intake-items" class="intake-items"></div>
+            <div id="intake-empty" class="intake-empty">Пока нет позиций. Добавьте продукты из дневного рациона.</div>
+            <div id="intake-progress" class="intake-progress" hidden>
+              <div class="intake-progress-head"><span id="intake-progress-label">Относительно ориентира</span><strong id="intake-progress-value">—</strong></div>
+              <div class="intake-progress-track" aria-hidden="true"><span id="intake-progress-bar"></span></div>
+            </div>
             <dl id="intake-summary" class="intake-summary" hidden></dl>
+            <section id="processed-meat-summary" class="nutrition-summary" hidden aria-labelledby="processed-meat-title"><h4 id="processed-meat-title">Переработанное мясо и полуфабрикаты</h4><dl id="processed-meat-totals" class="intake-summary"></dl><ul id="processed-meat-facts"></ul><details><summary>Состав учтённых продуктов</summary><div id="processed-meat-items"></div></details><small>Факты для консультанта. Автоматические рекомендации клиенту не формируются.</small></section>
+            <section class="nutrition-summary" aria-labelledby="salt-coffee-title"><h4 id="salt-coffee-title">Добавленная соль и кофе</h4><p class="note-help">Соль учитывается только при подтверждённой массе. Для кофе обязателен объём; молоко, сахар и другие добавки внесите отдельными продуктами.</p><div class="intake-entry-grid"><label>Вид<select id="salt-coffee-kind"><option value="SC-SALT-UNSPECIFIED">Соль — йодирование неизвестно</option><option value="SC-SALT-IODIZED-LABEL">Соль йодированная — по этикетке</option><option value="SC-COFFEE-FILTER">Кофе фильтрованный</option><option value="SC-COFFEE-ESPRESSO">Эспрессо</option><option value="SC-COFFEE-INSTANT">Кофе растворимый</option><option value="SC-COFFEE-UNKNOWN">Кофе — способ неизвестен</option></select></label><label id="salt-coffee-amount-label">Масса соли, г<input id="salt-coffee-amount" type="number" min="0.1" max="100" step="0.1"></label><label id="salt-amount-unknown-label"><span>Масса соли</span><span><input id="salt-amount-unknown" type="checkbox"> Неизвестна</span></label><label id="salt-iodine-label" hidden>Йод, мкг/г<input id="salt-iodine" type="number" min="0.01" max="1000" step="0.01"></label><button id="add-salt-coffee" class="secondary" type="button" disabled>Добавить</button></div><div id="salt-label-evidence" class="intake-entry-grid" hidden><label>Источник этикетки<input id="salt-label-source" maxlength="200" placeholder="Фото упаковки"></label><label>Версия / дата<input id="salt-label-version" maxlength="100" placeholder="2026-09-11"></label></div><div id="salt-coffee-items" class="intake-items"></div><dl id="salt-coffee-totals" class="intake-summary" hidden></dl><ul id="salt-coffee-limitations"></ul><small>Нейтральные факты для консультанта; автоматические рекомендации клиенту не формируются.</small></section>
+            <aside id="protein-client-preview" class="fat-client-preview" hidden><small>Превью для клиента</small><h4 id="protein-client-title"></h4><p id="protein-client-summary"></p><ul id="protein-client-points"></ul><p id="protein-client-next"></p><small id="protein-client-disclaimer"></small><div class="note-actions"><small id="protein-client-approval-status"></small><button id="approve-protein-client" class="primary compact" type="button">Одобрить для клиента</button></div></aside>
+            <section id="intake-meals" class="intake-meals" hidden aria-labelledby="intake-meals-title">
+              <h4 id="intake-meals-title">По приёмам пищи</h4>
+              <div id="intake-meal-list"></div>
+            </section>
             <div class="note-actions"><small id="intake-save-status" role="status" aria-live="polite"></small><button id="save-protein-intake" class="primary compact" type="button" disabled>Сохранить расчёт</button></div>
           </section>
           <section class="consultation-booking" aria-labelledby="booking-title">

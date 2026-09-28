@@ -1,0 +1,8 @@
+import{describe,expect,it,vi}from'vitest';import{ProfessionalPriorityReviewService,prioritySourceHash}from'./professional-priority-review.service';
+const candidates=[{module_key:'fat',code:'above_range'},{module_key:'purine_load',code:'purine_sources_review'}];
+const service=(save=vi.fn())=>new ProfessionalPriorityReviewService({findById:async()=>({clientId:'c',status:'accepted'})}as never,{activeConsultant:async()=> 'u'}as never,{requireRole:()=>{},requireActiveAssignment:()=>{}}as never,{find:async()=>null,save}as never,{encrypt:async(x:Uint8Array)=>x,decrypt:async(x:Uint8Array)=>x}as never);
+describe('professional priority review',()=>{
+ it('uses a stable source fingerprint',()=>expect(prioritySourceHash(candidates)).toBe(prioritySourceHash([...candidates])));
+ it('requires a reason and valid unique candidates',async()=>{await expect(service().save('s','c',{id:'u',role:'consultant'}as never,'r',0,{selected_keys:['fat'],reason:''},candidates)).rejects.toMatchObject({code:'PROFESSIONAL_PRIORITY_REVIEW_INVALID'});await expect(service().save('s','c',{id:'u',role:'consultant'}as never,'r',0,{selected_keys:['other'],reason:'Контекст'},candidates)).rejects.toMatchObject({code:'PROFESSIONAL_PRIORITY_REVIEW_CANDIDATE_INVALID'});});
+ it('persists ordered selection with encrypted reason',async()=>{const save=vi.fn(async(input:any)=>({id:'1',...input,version:1,updatedAt:new Date('2026-09-26T00:00:00Z')}));const out=await service(save).save('s','c',{id:'u',role:'consultant'}as never,'r',0,{selected_keys:['purine_load','fat'],reason:'Клинический контекст'},candidates);expect(save.mock.calls[0][0].selectedKeys).toEqual(['purine_load','fat']);expect(out).toMatchObject({status:'applied',version:1,selected_keys:['purine_load','fat']});});
+});

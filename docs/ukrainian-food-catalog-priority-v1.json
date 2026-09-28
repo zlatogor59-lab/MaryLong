@@ -1,0 +1,72 @@
+{
+  "version": "UA-priority-v1",
+  "basis": "Стартовый рабочий список для консультаций; не является оценкой популяционной частоты.",
+  "items": [
+    {"id":"oats","name_uk":"Вівсяні пластівці, сухі","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["овсяные хлопья","вівсяні пластівці"]},
+    {"id":"buckwheat","name_uk":"Гречана крупа, суха","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["гречневая крупа","гречана крупа"]},
+    {"id":"rice","name_uk":"Рис, варений без солі","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["рис басмати","рис, варен"]},
+    {"id":"pasta","name_uk":"Макарони, варені без солі","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["макароны, вареные","макарони, варені"]},
+    {"id":"wholegrain_bread","name_uk":"Хліб цільнозерновий","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["хлеб цельнозерновой","хліб цільнозерновий"]},
+    {"id":"rye_bread","name_uk":"Хліб житній","group":"Крупи і хліб","strategy":"generic","priority":1,"match_terms":["хлеб ржаной","хліб житній"]},
+    {"id":"millet","name_uk":"Пшоно, сухе","group":"Крупи і хліб","strategy":"generic","priority":2,"match_terms":["пшено","пшоно"]},
+    {"id":"pearl_barley","name_uk":"Крупа перлова, суха","group":"Крупи і хліб","strategy":"generic","priority":2,"match_terms":["перловая крупа","крупа перлова"]},
+
+    {"id":"milk","name_uk":"Молоко 2,5%","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["молоко 2,5%"]},
+    {"id":"kefir","name_uk":"Кефір без додатків","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["кефир","кефір"]},
+    {"id":"ryazhenka","name_uk":"Ряжанка","group":"Молочні продукти і яйця","strategy":"generic","priority":2,"match_terms":["ряженка","ряжанка"]},
+    {"id":"plain_yogurt","name_uk":"Йогурт натуральний без додатків","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["йогурт натуральный","йогурт натуральний"]},
+    {"id":"cottage_cheese","name_uk":"Сир кисломолочний 5%","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["творог 5%","сыр кисломолочный","сир кисломолочний"]},
+    {"id":"sour_cream","name_uk":"Сметана 15%","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["сметана 15%"]},
+    {"id":"hard_cheese","name_uk":"Сир твердий","group":"Молочні продукти і яйця","strategy":"generic","priority":2,"match_terms":["сыр чеддер","сир твердий"]},
+    {"id":"egg_boiled","name_uk":"Яйце куряче, варене","group":"Молочні продукти і яйця","strategy":"generic","priority":1,"match_terms":["яйцо куриное, вареное","яйце куряче, варене"]},
+
+    {"id":"chicken_breast","name_uk":"Куряча грудка без шкіри, готова","group":"М'ясо і птиця","strategy":"generic","priority":1,"match_terms":["куриная грудка","куряча грудка"]},
+    {"id":"chicken_thigh","name_uk":"Куряче стегно без шкіри, готове","group":"М'ясо і птиця","strategy":"generic","priority":1,"match_terms":["куриное бедро","куряче стегно"]},
+    {"id":"turkey","name_uk":"Філе індички, готове","group":"М'ясо і птиця","strategy":"generic","priority":2,"match_terms":["филе индейки","філе індички"]},
+    {"id":"pork","name_uk":"Свинина, тушкована","group":"М'ясо і птиця","strategy":"generic","priority":1,"match_terms":["свинина, лопатка","свинина, тушкована"]},
+    {"id":"beef","name_uk":"Яловичина нежирна, тушкована","group":"М'ясо і птиця","strategy":"generic","priority":1,"match_terms":["говядина постная","яловичина нежирна"]},
+    {"id":"liver","name_uk":"Печінка куряча, готова","group":"М'ясо і птиця","strategy":"generic","priority":1,"match_terms":["печень куриная","куриная печень","печінка куряча"]},
+
+    {"id":"herring","name_uk":"Оселедець солоний","group":"Риба","strategy":"generic","priority":1,"match_terms":["сельдь маринованная","оселедець солоний"]},
+    {"id":"mackerel","name_uk":"Скумбрія, готова","group":"Риба","strategy":"generic","priority":1,"match_terms":["скумбрия","скумбрія"]},
+    {"id":"hake","name_uk":"Хек, готовий","group":"Риба","strategy":"generic","priority":1,"match_terms":["хек"]},
+    {"id":"pollock","name_uk":"Минтай, готовий","group":"Риба","strategy":"generic","priority":2,"match_terms":["минтай"]},
+    {"id":"salmon","name_uk":"Лосось, запечений","group":"Риба","strategy":"generic","priority":2,"match_terms":["лосось"]},
+    {"id":"tuna_canned","name_uk":"Тунець консервований у розсолі","group":"Риба","strategy":"generic","priority":2,"match_terms":["тунец в рассоле","тунець консервований"]},
+
+    {"id":"lentils","name_uk":"Сочевиця, варена","group":"Бобові","strategy":"generic","priority":1,"match_terms":["чечевица","сочевиця"]},
+    {"id":"beans","name_uk":"Квасоля, варена","group":"Бобові","strategy":"generic","priority":1,"match_terms":["фасоль красная","квасоля"]},
+    {"id":"chickpeas","name_uk":"Нут, варений","group":"Бобові","strategy":"generic","priority":2,"match_terms":["нут, варен"]},
+
+    {"id":"potato","name_uk":"Картопля, варена без солі","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["картофель, вареный","картопля, варена"]},
+    {"id":"cabbage","name_uk":"Капуста білоголова, сира","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["капуста, сырая","капуста білоголова"]},
+    {"id":"carrot","name_uk":"Морква, варена","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["морковь, вареная","морква, варена"]},
+    {"id":"beet","name_uk":"Буряк, варений","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["свекла, вареная","свёкла, вареная","буряк"]},
+    {"id":"tomato","name_uk":"Помідор, сирий","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["помидор, сырой","помідор, сирий"]},
+    {"id":"cucumber","name_uk":"Огірок зі шкіркою, сирий","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["огурец с кожурой","огірок зі шкіркою"]},
+    {"id":"onion","name_uk":"Цибуля ріпчаста, сира","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["лук репчатый","цибуля ріпчаста"]},
+    {"id":"garlic","name_uk":"Часник, сирий","group":"Овочі та зелень","strategy":"generic","priority":2,"match_terms":["чеснок, сырой","часник, сирий"]},
+    {"id":"zucchini","name_uk":"Кабачок, готовий без олії","group":"Овочі та зелень","strategy":"generic","priority":1,"match_terms":["кабачок, вареный","кабачок, готовий"]},
+    {"id":"sweet_pepper","name_uk":"Перець солодкий червоний, сирий","group":"Овочі та зелень","strategy":"generic","priority":2,"match_terms":["перец красный","перець солодкий"]},
+    {"id":"dill","name_uk":"Кріп свіжий","group":"Овочі та зелень","strategy":"generic","priority":2,"match_terms":["укроп свежий","кріп свіжий"]},
+
+    {"id":"apple","name_uk":"Яблуко зі шкіркою","group":"Фрукти та ягоди","strategy":"generic","priority":1,"match_terms":["яблоко с кожурой","яблуко зі шкіркою"]},
+    {"id":"banana","name_uk":"Банан","group":"Фрукти та ягоди","strategy":"generic","priority":1,"match_terms":["банан"]},
+    {"id":"pear","name_uk":"Груша зі шкіркою","group":"Фрукти та ягоди","strategy":"generic","priority":2,"match_terms":["груша с кожурой","груша зі шкіркою"]},
+    {"id":"orange","name_uk":"Апельсин","group":"Фрукти та ягоди","strategy":"generic","priority":2,"match_terms":["апельсин"]},
+    {"id":"strawberry","name_uk":"Полуниця, сира","group":"Фрукти та ягоди","strategy":"generic","priority":2,"match_terms":["клубника","полуниця"]},
+    {"id":"currant","name_uk":"Смородина чорна, сира","group":"Фрукти та ягоди","strategy":"generic","priority":2,"match_terms":["смородина черная","смородина чорна"]},
+
+    {"id":"sunflower_oil","name_uk":"Олія соняшникова","group":"Жири, горіхи та насіння","strategy":"generic","priority":1,"match_terms":["масло подсолнечное","олія соняшникова"]},
+    {"id":"butter","name_uk":"Масло вершкове несолоне","group":"Жири, горіхи та насіння","strategy":"generic","priority":1,"match_terms":["масло сливочное","масло вершкове"]},
+    {"id":"walnut","name_uk":"Горіх волоський","group":"Жири, горіхи та насіння","strategy":"generic","priority":2,"match_terms":["грецкий орех","горіх волоський"]},
+    {"id":"sunflower_seeds","name_uk":"Насіння соняшнику","group":"Жири, горіхи та насіння","strategy":"generic","priority":2,"match_terms":["семена подсолнечника","насіння соняшнику"]},
+
+    {"id":"sweet_yogurt_label","name_uk":"Йогурт з наповнювачем","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]},
+    {"id":"breakfast_cereal_label","name_uk":"Готові сніданки або мюслі","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]},
+    {"id":"plant_drink_label","name_uk":"Рослинний напій","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]},
+    {"id":"sausage_label","name_uk":"Ковбаса або сосиски","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]},
+    {"id":"canned_fish_label","name_uk":"Рибні консерви в олії або соусі","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]},
+    {"id":"sauce_label","name_uk":"Майонез, кетчуп або готовий соус","group":"Потрібна етикетка","strategy":"label","priority":2,"match_terms":[]}
+  ]
+}

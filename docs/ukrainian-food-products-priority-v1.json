@@ -1,0 +1,825 @@
+{
+  "version": "UA-priority-products-v1",
+  "products": [
+    {
+      "name": "Куриное бедро без кожи, тушёное",
+      "origin": "animal",
+      "proteinPer100g": 25.6,
+      "energyKcalPer100g": 180.0,
+      "carbohydratePer100g": 0.0,
+      "fibrePer100g": null,
+      "totalSugarsPer100g": 0.0,
+      "totalFatPer100g": 8.6,
+      "saturatedFatPer100g": null,
+      "monounsaturatedFatPer100g": null,
+      "polyunsaturatedFatPer100g": null,
+      "transFatPer100g": null,
+      "mineralProfile": {
+        "calcium": {
+          "valuePer100g": 14.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "phosphorus": {
+          "valuePer100g": 150.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "magnesium": {
+          "valuePer100g": 19.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "iron": {
+          "valuePer100g": 1.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "zinc": {
+          "valuePer100g": 2.1,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "copper": {
+          "valuePer100g": 0.15,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "manganese": {
+          "valuePer100g": 0.02,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "molybdenum": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "sodium": {
+          "valuePer100g": 40.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "potassium": {
+          "valuePer100g": 150.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        }
+      },
+      "vitaminProfile": {
+        "vitamin_d": {
+          "valuePer100g": 0.2,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b12": {
+          "valuePer100g": 1.0,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "folate": {
+          "valuePer100g": 6.0,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_c": {
+          "valuePer100g": 0.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_a": {
+          "valuePer100g": 20.0,
+          "unit": "ug_re",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_e": {
+          "valuePer100g": 0.12,
+          "unit": "mg_alpha_te",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b1": {
+          "valuePer100g": 0.05,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b2": {
+          "valuePer100g": 0.15,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b3": {
+          "valuePer100g": 8.4,
+          "unit": "mg_ne",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b5": {
+          "valuePer100g": 1.34,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b6": {
+          "valuePer100g": 0.18,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_b7": {
+          "valuePer100g": 4.0,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        },
+        "vitamin_k": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "18-319"
+        }
+      },
+      "sourceLabel": "CoFID 2021; 18-319",
+      "sourceReference": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid",
+      "sourceDescription": "10 samples of skinless thighs"
+    },
+    {
+      "name": "Хек, гриль без добавленного жира",
+      "origin": "animal",
+      "proteinPer100g": 22.2,
+      "energyKcalPer100g": 113.0,
+      "carbohydratePer100g": 0.0,
+      "fibrePer100g": null,
+      "totalSugarsPer100g": 0.0,
+      "totalFatPer100g": 2.7,
+      "saturatedFatPer100g": null,
+      "monounsaturatedFatPer100g": null,
+      "polyunsaturatedFatPer100g": null,
+      "transFatPer100g": null,
+      "mineralProfile": {
+        "calcium": {
+          "valuePer100g": 17.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "phosphorus": {
+          "valuePer100g": 240.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "magnesium": {
+          "valuePer100g": 28.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "iron": {
+          "valuePer100g": 0.6,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "zinc": {
+          "valuePer100g": 0.4,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "copper": {
+          "valuePer100g": 0.04,
+          "unit": "ug",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "manganese": {
+          "valuePer100g": 0.02,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "molybdenum": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "sodium": {
+          "valuePer100g": 130.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "potassium": {
+          "valuePer100g": 340.0,
+          "unit": "mg",
+          "status": "analytical",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        }
+      },
+      "vitaminProfile": {
+        "vitamin_d": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "trace",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b12": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "folate": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_c": {
+          "valuePer100g": null,
+          "unit": "mg",
+          "status": "trace",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_a": {
+          "valuePer100g": null,
+          "unit": "ug_re",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_e": {
+          "valuePer100g": null,
+          "unit": "mg_alpha_te",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b1": {
+          "valuePer100g": null,
+          "unit": "mg",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b2": {
+          "valuePer100g": null,
+          "unit": "mg",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b3": {
+          "valuePer100g": null,
+          "unit": "mg_ne",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b5": {
+          "valuePer100g": null,
+          "unit": "mg",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b6": {
+          "valuePer100g": null,
+          "unit": "mg",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_b7": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        },
+        "vitamin_k": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "CoFID 2021",
+          "sourceVersion": "2021",
+          "sourceRecord": "16-071"
+        }
+      },
+      "sourceLabel": "CoFID 2021; 16-071",
+      "sourceReference": "https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid",
+      "sourceDescription": "Calculated from raw, steaks; flesh only"
+    },
+    {
+      "name": "Хлеб ржаной",
+      "origin": "plant",
+      "proteinPer100g": 8.5,
+      "energyKcalPer100g": 259.0,
+      "carbohydratePer100g": 48.3,
+      "fibrePer100g": 5.8,
+      "totalSugarsPer100g": null,
+      "totalFatPer100g": 3.3,
+      "saturatedFatPer100g": 0.626,
+      "monounsaturatedFatPer100g": 1.311,
+      "polyunsaturatedFatPer100g": 0.799,
+      "transFatPer100g": null,
+      "mineralProfile": {
+        "calcium": {
+          "valuePer100g": 73.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "phosphorus": {
+          "valuePer100g": 125.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "magnesium": {
+          "valuePer100g": 40.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "iron": {
+          "valuePer100g": 2.83,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "zinc": {
+          "valuePer100g": 1.14,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "copper": {
+          "valuePer100g": 186.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "manganese": {
+          "valuePer100g": 0.824,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "molybdenum": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "sodium": {
+          "valuePer100g": 603.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "potassium": {
+          "valuePer100g": 166.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        }
+      },
+      "vitaminProfile": {
+        "vitamin_d": {
+          "valuePer100g": 0.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b12": {
+          "valuePer100g": 0.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "folate": {
+          "valuePer100g": 110.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_c": {
+          "valuePer100g": 0.4,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_a": {
+          "valuePer100g": 0.0,
+          "unit": "ug_re",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_e": {
+          "valuePer100g": 0.33,
+          "unit": "mg_alpha_te",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b1": {
+          "valuePer100g": 0.434,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b2": {
+          "valuePer100g": 0.335,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b3": {
+          "valuePer100g": 3.805,
+          "unit": "mg_ne",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b5": {
+          "valuePer100g": 0.44,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b6": {
+          "valuePer100g": 0.075,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_b7": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        },
+        "vitamin_k": {
+          "valuePer100g": 1.2,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 172684"
+        }
+      },
+      "sourceLabel": "USDA FoodData Central SR Legacy; FDC 172684",
+      "sourceReference": "https://fdc.nal.usda.gov/",
+      "sourceDescription": "Bread, rye"
+    },
+    {
+      "name": "Куриная печень, варёная/тушёная",
+      "origin": "animal",
+      "proteinPer100g": 24.46,
+      "energyKcalPer100g": 167.0,
+      "carbohydratePer100g": 0.87,
+      "fibrePer100g": 0.0,
+      "totalSugarsPer100g": null,
+      "totalFatPer100g": 6.51,
+      "saturatedFatPer100g": 2.06,
+      "monounsaturatedFatPer100g": 1.416,
+      "polyunsaturatedFatPer100g": 1.988,
+      "transFatPer100g": 0.09,
+      "mineralProfile": {
+        "calcium": {
+          "valuePer100g": 11.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "phosphorus": {
+          "valuePer100g": 405.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "magnesium": {
+          "valuePer100g": 25.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "iron": {
+          "valuePer100g": 11.63,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "zinc": {
+          "valuePer100g": 3.98,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "copper": {
+          "valuePer100g": 496.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "manganese": {
+          "valuePer100g": 0.359,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "molybdenum": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "sodium": {
+          "valuePer100g": 76.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "potassium": {
+          "valuePer100g": 263.0,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        }
+      },
+      "vitaminProfile": {
+        "vitamin_d": {
+          "valuePer100g": 0.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b12": {
+          "valuePer100g": 16.85,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "folate": {
+          "valuePer100g": 578.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_c": {
+          "valuePer100g": 27.9,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_a": {
+          "valuePer100g": 3981.0,
+          "unit": "ug_re",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_e": {
+          "valuePer100g": 0.82,
+          "unit": "mg_alpha_te",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b1": {
+          "valuePer100g": 0.291,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b2": {
+          "valuePer100g": 1.993,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b3": {
+          "valuePer100g": 11.045,
+          "unit": "mg_ne",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b5": {
+          "valuePer100g": 6.668,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b6": {
+          "valuePer100g": 0.755,
+          "unit": "mg",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_b7": {
+          "valuePer100g": null,
+          "unit": "ug",
+          "status": "missing",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        },
+        "vitamin_k": {
+          "valuePer100g": 0.0,
+          "unit": "ug",
+          "status": "borrowed",
+          "sourceName": "USDA FoodData Central SR Legacy",
+          "sourceVersion": "2018-04",
+          "sourceRecord": "FDC 171061"
+        }
+      },
+      "sourceLabel": "USDA FoodData Central SR Legacy; FDC 171061",
+      "sourceReference": "https://fdc.nal.usda.gov/",
+      "sourceDescription": "Chicken, liver, all classes, cooked, simmered"
+    }
+  ]
+}

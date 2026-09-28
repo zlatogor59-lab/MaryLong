@@ -1,0 +1,16 @@
+[
+  {"name":"Миндаль","fdc_id":"170567","palmitic":3.083,"linoleic_n6":12.32,"ala":0.003,"epa":0,"dha":0},
+  {"name":"Грецкий орех","fdc_id":"170187","palmitic":4.404,"linoleic_n6":null,"ala":null,"epa":0,"dha":0},
+  {"name":"Семена тыквы","fdc_id":"170556","palmitic":5.364,"linoleic_n6":20.667,"ala":0.12,"epa":0,"dha":0},
+  {"name":"Семена подсолнечника","fdc_id":"170562","palmitic":2.21,"linoleic_n6":null,"ala":null,"epa":0.014,"dha":0},
+  {"name":"Кунжут","fdc_id":"170150","palmitic":4.441,"linoleic_n6":null,"ala":null,"epa":0,"dha":0},
+  {"name":"Масло оливковое","fdc_id":"171413","palmitic":11.29,"linoleic_n6":null,"ala":null,"epa":0,"dha":0},
+  {"name":"Яйца куриные, жареные без добавленного жира","fdc_id":"173423","palmitic":2.954,"linoleic_n6":null,"ala":null,"epa":0,"dha":0.063},
+  {"name":"Масло сливочное несолёное","fdc_id":"173430","palmitic":21.697,"linoleic_n6":2.166,"ala":0.315,"epa":0,"dha":0},
+  {"name":"Сыр чеддер","fdc_id":"173414","palmitic":8.625,"linoleic_n6":0.791,"ala":0.108,"epa":0.01,"dha":0.001},
+  {"name":"Молоко цельное","fdc_id":"171265","palmitic":0.829,"linoleic_n6":null,"ala":null,"epa":0,"dha":0},
+  {"name":"Лосось выращенный, запечённый","fdc_id":"175168","palmitic":1.493,"linoleic_n6":null,"ala":null,"epa":0.69,"dha":1.457},
+  {"name":"Скумбрия, гриль","fdc_id":"175120","palmitic":1.375,"linoleic_n6":null,"ala":null,"epa":0.504,"dha":0.699},
+  {"name":"Сельдь, гриль","fdc_id":"175117","palmitic":1.735,"linoleic_n6":null,"ala":null,"epa":0.909,"dha":1.105},
+  {"name":"Треска, запечённая","fdc_id":"171956","palmitic":0.117,"linoleic_n6":null,"ala":null,"epa":0.004,"dha":0.154}
+]

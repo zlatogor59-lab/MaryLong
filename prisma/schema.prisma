@@ -4,317 +4,591 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 enum UserRole {
   admin
   consultant
   client
+
   @@map("user_role")
 }
+
 enum UserStatus {
   invited
   active
   suspended
   revoked
+
   @@map("user_status")
 }
+
 enum ClientStatus {
   prospect
   active
   archived
+
   @@map("client_status")
 }
+
 enum AssignmentStatus {
   active
   ended
+
   @@map("assignment_status")
 }
+
 enum FormSchemaId {
   forms_v1_49_columns
   forms_v2_76_columns
   forms_v3_77_columns
+
   @@map("form_schema_id")
 }
+
 enum FormSourceType {
   csv
   google_sheets
   manual_test
+
   @@map("form_source_type")
 }
+
 enum ImportStatus {
   received
   verified
   blocked
   accepted
+
   @@map("import_status")
 }
+
 enum ConsentStatus {
   verified
   not_verified
   declined
+
   @@map("consent_status")
 }
+
 enum ConsultationBookingStatus {
   pending
   scheduled
   needs_reminder
+
   @@map("consultation_booking_status")
 }
+
 enum ProteinTargetSource {
   built_in
   physical_ruler
   manual
+
   @@map("protein_target_source")
 }
+
 enum ProteinOrigin {
   plant
   animal
   mixed
+
   @@map("protein_origin")
 }
+
 enum FoodProductStatus {
   draft
   verified
   retired
+
   @@map("food_product_status")
 }
+
+enum FatGoal {
+  maintain
+  weight_loss
+
+  @@map("fat_goal")
+}
+
+enum FatActivity {
+  low
+  moderate
+  high
+  very_high
+
+  @@map("fat_activity")
+}
+
 enum AuditDecision {
   ALLOW
   DENY
   SUCCESS
   FAILURE
+
   @@map("audit_decision")
 }
 
 model User {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  emailNormalized String @unique @map("email_normalized")
-  displayName String @map("display_name")
-  role UserRole
-  status UserStatus @default(invited)
-  authSubject String @unique @map("auth_subject")
-  sessionRevokedAt DateTime? @map("session_revoked_at") @db.Timestamptz
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
-  version Int @default(1)
+  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  emailNormalized  String     @unique @map("email_normalized")
+  displayName      String     @map("display_name")
+  role             UserRole
+  status           UserStatus @default(invited)
+  authSubject      String     @unique @map("auth_subject")
+  sessionRevokedAt DateTime?  @map("session_revoked_at") @db.Timestamptz
+  createdAt        DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime   @default(now()) @map("updated_at") @db.Timestamptz
+  version          Int        @default(1)
+
   @@map("users")
 }
 
 model Client {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  ownerUserId String? @unique @map("owner_user_id") @db.Uuid
-  status ClientStatus @default(prospect)
-  createdBy String @map("created_by") @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
-  version Int @default(1)
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerUserId String?      @unique @map("owner_user_id") @db.Uuid
+  status      ClientStatus @default(prospect)
+  createdBy   String       @map("created_by") @db.Uuid
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime     @default(now()) @map("updated_at") @db.Timestamptz
+  version     Int          @default(1)
+
   @@map("clients")
 }
 
+model ClientRegionalNutrientSetting {
+  clientId      String   @id @map("client_id") @db.Uuid
+  marketCountry String   @map("market_country") @db.VarChar(16)
+  updatedBy     String   @map("updated_by") @db.Uuid
+  version       Int      @default(1)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@map("client_regional_nutrient_settings")
+}
+
+model SubmissionRegionalNutrientSetting {
+  submissionId  String   @id @map("submission_id") @db.Uuid
+  clientId      String   @map("client_id") @db.Uuid
+  marketCountry String   @map("market_country") @db.VarChar(16)
+  updatedBy     String   @map("updated_by") @db.Uuid
+  version       Int      @default(1)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@map("submission_regional_nutrient_settings")
+}
+
+model ClientMineralTarget {
+  clientId             String   @id @map("client_id") @db.Uuid
+  magnesiumTargetMg    Decimal? @map("magnesium_target_mg") @db.Decimal(9, 3)
+  ironTargetMg         Decimal? @map("iron_target_mg") @db.Decimal(9, 3)
+  zincTargetMg         Decimal? @map("zinc_target_mg") @db.Decimal(9, 3)
+  copperTargetUg       Decimal? @map("copper_target_ug") @db.Decimal(12, 3)
+  manganeseTargetMg    Decimal? @map("manganese_target_mg") @db.Decimal(9, 3)
+  molybdenumTargetUg   Decimal? @map("molybdenum_target_ug") @db.Decimal(12, 3)
+  seleniumTargetUg     Decimal? @map("selenium_target_ug") @db.Decimal(12, 3)
+  seleniumUpperLevelUg Decimal? @map("selenium_upper_level_ug") @db.Decimal(12, 3)
+  iodineTargetUg       Decimal? @map("iodine_target_ug") @db.Decimal(12, 3)
+  iodineUpperLevelUg   Decimal? @map("iodine_upper_level_ug") @db.Decimal(12, 3)
+  updatedBy            String   @map("updated_by") @db.Uuid
+  version              Int      @default(1)
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@map("client_mineral_targets")
+}
+
 model ClientIdentity {
-  clientId String @id @map("client_id") @db.Uuid
-  fullNameCiphertext Bytes @map("full_name_ciphertext")
-  phoneCiphertext Bytes? @map("phone_ciphertext")
-  telegramCiphertext Bytes? @map("telegram_ciphertext")
-  sex String?
-  birthDate DateTime? @map("birth_date") @db.Date
-  heightCm Decimal? @map("height_cm") @db.Decimal(5,2)
-  weightKg Decimal? @map("weight_kg") @db.Decimal(6,2)
-  waistCm Decimal? @map("waist_cm") @db.Decimal(5,2)
-  hipsCm Decimal? @map("hips_cm") @db.Decimal(5,2)
-  calfCm Decimal? @map("calf_cm") @db.Decimal(5,2)
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
-  version Int @default(1)
+  clientId           String    @id @map("client_id") @db.Uuid
+  fullNameCiphertext Bytes     @map("full_name_ciphertext")
+  phoneCiphertext    Bytes?    @map("phone_ciphertext")
+  telegramCiphertext Bytes?    @map("telegram_ciphertext")
+  sex                String?
+  birthDate          DateTime? @map("birth_date") @db.Date
+  heightCm           Decimal?  @map("height_cm") @db.Decimal(5, 2)
+  weightKg           Decimal?  @map("weight_kg") @db.Decimal(6, 2)
+  waistCm            Decimal?  @map("waist_cm") @db.Decimal(5, 2)
+  hipsCm             Decimal?  @map("hips_cm") @db.Decimal(5, 2)
+  calfCm             Decimal?  @map("calf_cm") @db.Decimal(5, 2)
+  updatedAt          DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+  version            Int       @default(1)
+
   @@map("client_identity")
 }
 
 model ConsultantClientAssignment {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  consultantUserId String @map("consultant_user_id") @db.Uuid
-  status AssignmentStatus
-  startedAt DateTime @default(now()) @map("started_at") @db.Timestamptz
-  endedAt DateTime? @map("ended_at") @db.Timestamptz
-  assignedBy String @map("assigned_by") @db.Uuid
-  reasonCode String @map("reason_code")
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId         String           @map("client_id") @db.Uuid
+  consultantUserId String           @map("consultant_user_id") @db.Uuid
+  status           AssignmentStatus
+  startedAt        DateTime         @default(now()) @map("started_at") @db.Timestamptz
+  endedAt          DateTime?        @map("ended_at") @db.Timestamptz
+  assignedBy       String           @map("assigned_by") @db.Uuid
+  reasonCode       String           @map("reason_code")
+
   @@map("consultant_client_assignments")
 }
 
 model FormSubmission {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  schemaId FormSchemaId @map("schema_id")
-  sourceType FormSourceType @map("source_type")
-  sourceResponseId String? @map("source_response_id")
-  sourceSubmittedAt DateTime? @map("source_submitted_at") @db.Timestamptz
-  headerFingerprint String @map("header_fingerprint")
-  payloadCiphertext Bytes @map("payload_ciphertext")
-  payloadHash String @map("payload_hash")
-  idempotencyKey String @unique @map("idempotency_key")
-  importStatus ImportStatus @default(received) @map("import_status")
-  blockCode String? @map("block_code")
-  consentStatus ConsentStatus @map("consent_status")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id                String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId          String         @map("client_id") @db.Uuid
+  schemaId          FormSchemaId   @map("schema_id")
+  sourceType        FormSourceType @map("source_type")
+  sourceResponseId  String?        @map("source_response_id")
+  sourceSubmittedAt DateTime?      @map("source_submitted_at") @db.Timestamptz
+  headerFingerprint String         @map("header_fingerprint")
+  payloadCiphertext Bytes          @map("payload_ciphertext")
+  payloadHash       String         @map("payload_hash")
+  idempotencyKey    String         @unique @map("idempotency_key")
+  importStatus      ImportStatus   @default(received) @map("import_status")
+  blockCode         String?        @map("block_code")
+  consentStatus     ConsentStatus  @map("consent_status")
+  createdAt         DateTime       @default(now()) @map("created_at") @db.Timestamptz
+
   @@map("form_submissions")
 }
 
 model ConsultantNote {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @unique @map("submission_id") @db.Uuid
-  authorUserId String @map("author_user_id") @db.Uuid
-  bodyCiphertext Bytes @map("body_ciphertext")
-  version Int @default(1)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId       String   @map("client_id") @db.Uuid
+  submissionId   String   @unique @map("submission_id") @db.Uuid
+  authorUserId   String   @map("author_user_id") @db.Uuid
+  bodyCiphertext Bytes    @map("body_ciphertext")
+  version        Int      @default(1)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
   @@map("consultant_notes")
 }
 
 model ConsultantNoteVersion {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  noteId String @map("note_id") @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @map("submission_id") @db.Uuid
-  authorUserId String @map("author_user_id") @db.Uuid
-  bodyCiphertext Bytes @map("body_ciphertext")
-  version Int
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  noteId         String   @map("note_id") @db.Uuid
+  clientId       String   @map("client_id") @db.Uuid
+  submissionId   String   @map("submission_id") @db.Uuid
+  authorUserId   String   @map("author_user_id") @db.Uuid
+  bodyCiphertext Bytes    @map("body_ciphertext")
+  version        Int
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
   @@unique([noteId, version])
   @@map("consultant_note_versions")
 }
 
 model ConsultationBooking {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @unique @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  status ConsultationBookingStatus @default(pending)
-  scheduledAt DateTime? @map("scheduled_at") @db.Timestamptz
-  contactNoteCiphertext Bytes @map("contact_note_ciphertext")
-  version Int @default(1)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  id                    String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId              String                    @map("client_id") @db.Uuid
+  submissionId          String                    @unique @map("submission_id") @db.Uuid
+  updatedBy             String                    @map("updated_by") @db.Uuid
+  status                ConsultationBookingStatus @default(pending)
+  scheduledAt           DateTime?                 @map("scheduled_at") @db.Timestamptz
+  contactNoteCiphertext Bytes                     @map("contact_note_ciphertext")
+  version               Int                       @default(1)
+  createdAt             DateTime                  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime                  @default(now()) @map("updated_at") @db.Timestamptz
+
   @@map("consultation_bookings")
 }
 
 model ConsultationBookingVersion {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  bookingId String @map("booking_id") @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  status ConsultationBookingStatus
-  scheduledAt DateTime? @map("scheduled_at") @db.Timestamptz
-  contactNoteCiphertext Bytes @map("contact_note_ciphertext")
-  version Int
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id                    String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bookingId             String                    @map("booking_id") @db.Uuid
+  clientId              String                    @map("client_id") @db.Uuid
+  submissionId          String                    @map("submission_id") @db.Uuid
+  updatedBy             String                    @map("updated_by") @db.Uuid
+  status                ConsultationBookingStatus
+  scheduledAt           DateTime?                 @map("scheduled_at") @db.Timestamptz
+  contactNoteCiphertext Bytes                     @map("contact_note_ciphertext")
+  version               Int
+  createdAt             DateTime                  @default(now()) @map("created_at") @db.Timestamptz
+
   @@unique([bookingId, version])
   @@map("consultation_booking_versions")
 }
 
 model ProteinTarget {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @unique @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  source ProteinTargetSource
-  bmiExact Decimal? @map("bmi_exact") @db.Decimal(5,2)
-  bmiRounded Int? @map("bmi_rounded")
-  proteinFactorG Int @map("protein_factor_g")
-  targetMinG Int @map("target_min_g")
-  targetMaxG Int @map("target_max_g")
-  reasonCiphertext Bytes @map("reason_ciphertext")
-  version Int @default(1)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId         String              @map("client_id") @db.Uuid
+  submissionId     String              @unique @map("submission_id") @db.Uuid
+  updatedBy        String              @map("updated_by") @db.Uuid
+  source           ProteinTargetSource
+  bmiExact         Decimal?            @map("bmi_exact") @db.Decimal(5, 2)
+  bmiRounded       Int?                @map("bmi_rounded")
+  proteinFactorG   Int                 @map("protein_factor_g")
+  targetMinG       Int                 @map("target_min_g")
+  targetMaxG       Int                 @map("target_max_g")
+  reasonCiphertext Bytes               @map("reason_ciphertext")
+  version          Int                 @default(1)
+  createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime            @default(now()) @map("updated_at") @db.Timestamptz
+
   @@map("protein_targets")
 }
 
 model ProteinTargetVersion {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  targetId String @map("target_id") @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  source ProteinTargetSource
-  bmiExact Decimal? @map("bmi_exact") @db.Decimal(5,2)
-  bmiRounded Int? @map("bmi_rounded")
-  proteinFactorG Int @map("protein_factor_g")
-  targetMinG Int @map("target_min_g")
-  targetMaxG Int @map("target_max_g")
-  reasonCiphertext Bytes @map("reason_ciphertext")
-  version Int
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetId         String              @map("target_id") @db.Uuid
+  clientId         String              @map("client_id") @db.Uuid
+  submissionId     String              @map("submission_id") @db.Uuid
+  updatedBy        String              @map("updated_by") @db.Uuid
+  source           ProteinTargetSource
+  bmiExact         Decimal?            @map("bmi_exact") @db.Decimal(5, 2)
+  bmiRounded       Int?                @map("bmi_rounded")
+  proteinFactorG   Int                 @map("protein_factor_g")
+  targetMinG       Int                 @map("target_min_g")
+  targetMaxG       Int                 @map("target_max_g")
+  reasonCiphertext Bytes               @map("reason_ciphertext")
+  version          Int
+  createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz
+
   @@unique([targetId, version])
   @@map("protein_target_versions")
 }
 
 model FoodProductCard {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  canonicalName String @map("canonical_name")
-  proteinPer100g Decimal @map("protein_per_100g") @db.Decimal(7,3)
-  origin ProteinOrigin
-  plantSharePercent Int @map("plant_share_percent")
-  sourceLabel String @map("source_label")
-  sourceReference String? @map("source_reference")
-  status FoodProductStatus @default(draft)
-  createdBy String @map("created_by") @db.Uuid
-  verifiedBy String? @map("verified_by") @db.Uuid
-  verifiedAt DateTime? @map("verified_at") @db.Timestamptz
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
-  version Int @default(1)
+  id                          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  canonicalName               String            @map("canonical_name")
+  proteinPer100g              Decimal           @map("protein_per_100g") @db.Decimal(7, 3)
+  energyKcalPer100g           Decimal?          @map("energy_kcal_per_100g") @db.Decimal(8, 3)
+  carbohydratePer100g         Decimal?          @map("carbohydrate_per_100g") @db.Decimal(7, 3)
+  fibrePer100g                Decimal?          @map("fibre_per_100g") @db.Decimal(7, 3)
+  totalSugarsPer100g          Decimal?          @map("total_sugars_per_100g") @db.Decimal(7, 3)
+  freeSugarsPer100g           Decimal?          @map("free_sugars_per_100g") @db.Decimal(7, 3)
+  carbohydrateSourceClass     String?           @map("carbohydrate_source_class")
+  carbohydrateQualitySource   String?           @map("carbohydrate_quality_source")
+  starchPer100g               Decimal?          @map("starch_per_100g") @db.Decimal(7, 3)
+  polyolsPer100g              Decimal?          @map("polyols_per_100g") @db.Decimal(7, 3)
+  resistantStarchPer100g      Decimal?          @map("resistant_starch_per_100g") @db.Decimal(7, 3)
+  sugarOriginClass            String?           @map("sugar_origin_class")
+  carbohydrateFoodGroup       String?           @map("carbohydrate_food_group")
+  foodMatrixClass             String?           @map("food_matrix_class")
+  processingClass             String?           @map("processing_class")
+  carbohydrateFlags           String[]          @default([]) @map("carbohydrate_flags")
+  carbohydrateDataReliability String?           @map("carbohydrate_data_reliability")
+  totalFatPer100g             Decimal?          @map("total_fat_per_100g") @db.Decimal(7, 3)
+  saturatedFatPer100g         Decimal?          @map("saturated_fat_per_100g") @db.Decimal(7, 3)
+  monounsaturatedFatPer100g   Decimal?          @map("monounsaturated_fat_per_100g") @db.Decimal(7, 3)
+  polyunsaturatedFatPer100g   Decimal?          @map("polyunsaturated_fat_per_100g") @db.Decimal(7, 3)
+  transFatPer100g             Decimal?          @map("trans_fat_per_100g") @db.Decimal(7, 3)
+  omega6TotalPer100g          Decimal?          @map("omega6_total_per_100g") @db.Decimal(7, 3)
+  omega3TotalPer100g          Decimal?          @map("omega3_total_per_100g") @db.Decimal(7, 3)
+  omega6LaPer100g             Decimal?          @map("omega6_la_per_100g") @db.Decimal(7, 3)
+  omega3AlaPer100g            Decimal?          @map("omega3_ala_per_100g") @db.Decimal(7, 3)
+  epaPer100g                  Decimal?          @map("epa_per_100g") @db.Decimal(7, 3)
+  dhaPer100g                  Decimal?          @map("dha_per_100g") @db.Decimal(7, 3)
+  palmiticAcidPer100g         Decimal?          @map("palmitic_acid_per_100g") @db.Decimal(7, 3)
+  fatProfileSource            String?           @map("fat_profile_source")
+  fatProfileQuality           String?           @map("fat_profile_quality")
+  fatDetailSource             String?           @map("fat_detail_source")
+  fatDetailQuality            String?           @map("fat_detail_quality")
+  mineralProfile              Json?             @map("mineral_profile")
+  enrichmentProfile           Json?             @map("enrichment_profile")
+  vitaminProfile              Json?             @map("vitamin_profile")
+  origin                      ProteinOrigin
+  plantSharePercent           Int               @map("plant_share_percent")
+  sourceLabel                 String            @map("source_label")
+  sourceReference             String?           @map("source_reference")
+  status                      FoodProductStatus @default(draft)
+  replacementCardId           String?           @map("replacement_card_id") @db.Uuid
+  createdBy                   String            @map("created_by") @db.Uuid
+  verifiedBy                  String?           @map("verified_by") @db.Uuid
+  verifiedAt                  DateTime?         @map("verified_at") @db.Timestamptz
+  createdAt                   DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt                   DateTime          @default(now()) @map("updated_at") @db.Timestamptz
+  version                     Int               @default(1)
+  versions                    FoodProductCardVersion[]
+
   @@map("food_product_cards")
 }
 
+model FoodProductCardVersion {
+  id         String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cardId     String          @map("card_id") @db.Uuid
+  card       FoodProductCard @relation(fields:[cardId],references:[id],onDelete:Cascade)
+  version    Int
+  changeKind String          @map("change_kind")
+  changedBy  String?         @map("changed_by") @db.Uuid
+  snapshot   Json
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([cardId,version])
+  @@index([cardId,createdAt])
+  @@map("food_product_card_versions")
+}
+
+model NutrientClientExplanationApproval {
+  id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId              String   @map("client_id") @db.Uuid
+  submissionId          String   @map("submission_id") @db.Uuid
+  nutrientKey           String   @map("nutrient_key")
+  sourceIntakeVersion   Int      @map("source_intake_version")
+  targetVersion         Int      @map("target_version")
+  explanationHash       String   @map("explanation_hash")
+  explanationCiphertext Bytes?   @map("explanation_ciphertext")
+  approvedBy            String   @map("approved_by") @db.Uuid
+  approvedAt            DateTime @default(now()) @map("approved_at") @db.Timestamptz
+  version               Int      @default(1)
+  updatedAt             DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@unique([submissionId, nutrientKey])
+  @@map("nutrient_client_explanation_approvals")
+}
+
 model ProteinIntakeAssessment {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @unique @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  payloadCiphertext Bytes @map("payload_ciphertext")
-  totalProteinG Decimal @map("total_protein_g") @db.Decimal(8,2)
-  plantProteinG Decimal @map("plant_protein_g") @db.Decimal(8,2)
-  animalProteinG Decimal @map("animal_protein_g") @db.Decimal(8,2)
-  completenessPercent Int @map("completeness_percent")
-  version Int @default(1)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId            String   @map("client_id") @db.Uuid
+  submissionId        String   @unique @map("submission_id") @db.Uuid
+  updatedBy           String   @map("updated_by") @db.Uuid
+  payloadCiphertext   Bytes    @map("payload_ciphertext")
+  totalProteinG       Decimal  @map("total_protein_g") @db.Decimal(8, 2)
+  plantProteinG       Decimal  @map("plant_protein_g") @db.Decimal(8, 2)
+  animalProteinG      Decimal  @map("animal_protein_g") @db.Decimal(8, 2)
+  completenessPercent Int      @map("completeness_percent")
+  version             Int      @default(1)
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
   @@map("protein_intake_assessments")
 }
 
 model ProteinIntakeAssessmentVersion {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  assessmentId String @map("assessment_id") @db.Uuid
-  clientId String @map("client_id") @db.Uuid
-  submissionId String @map("submission_id") @db.Uuid
-  updatedBy String @map("updated_by") @db.Uuid
-  payloadCiphertext Bytes @map("payload_ciphertext")
-  totalProteinG Decimal @map("total_protein_g") @db.Decimal(8,2)
-  plantProteinG Decimal @map("plant_protein_g") @db.Decimal(8,2)
-  animalProteinG Decimal @map("animal_protein_g") @db.Decimal(8,2)
-  completenessPercent Int @map("completeness_percent")
-  version Int
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  assessmentId        String   @map("assessment_id") @db.Uuid
+  clientId            String   @map("client_id") @db.Uuid
+  submissionId        String   @map("submission_id") @db.Uuid
+  updatedBy           String   @map("updated_by") @db.Uuid
+  payloadCiphertext   Bytes    @map("payload_ciphertext")
+  totalProteinG       Decimal  @map("total_protein_g") @db.Decimal(8, 2)
+  plantProteinG       Decimal  @map("plant_protein_g") @db.Decimal(8, 2)
+  animalProteinG      Decimal  @map("animal_protein_g") @db.Decimal(8, 2)
+  completenessPercent Int      @map("completeness_percent")
+  version             Int
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz
+
   @@unique([assessmentId, version])
   @@map("protein_intake_assessment_versions")
 }
 
+model FatTarget {
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId         String      @map("client_id") @db.Uuid
+  submissionId     String      @unique @map("submission_id") @db.Uuid
+  updatedBy        String      @map("updated_by") @db.Uuid
+  energyKcal       Int         @map("energy_kcal")
+  weightKg         Decimal     @map("weight_kg") @db.Decimal(6, 2)
+  goal             FatGoal
+  activity         FatActivity
+  energyPercentMin Int         @map("energy_percent_min")
+  energyPercentMax Int         @map("energy_percent_max")
+  targetMinG       Decimal     @map("target_min_g") @db.Decimal(7, 1)
+  targetMaxG       Decimal     @map("target_max_g") @db.Decimal(7, 1)
+  gramsPerKgMin    Decimal     @map("grams_per_kg_min") @db.Decimal(5, 2)
+  gramsPerKgMax    Decimal     @map("grams_per_kg_max") @db.Decimal(5, 2)
+  reasonCiphertext Bytes       @map("reason_ciphertext")
+  version          Int         @default(1)
+  createdAt        DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime    @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@map("fat_targets")
+}
+
+model FatTargetVersion {
+  id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetId         String      @map("target_id") @db.Uuid
+  clientId         String      @map("client_id") @db.Uuid
+  submissionId     String      @map("submission_id") @db.Uuid
+  updatedBy        String      @map("updated_by") @db.Uuid
+  energyKcal       Int         @map("energy_kcal")
+  weightKg         Decimal     @map("weight_kg") @db.Decimal(6, 2)
+  goal             FatGoal
+  activity         FatActivity
+  energyPercentMin Int         @map("energy_percent_min")
+  energyPercentMax Int         @map("energy_percent_max")
+  targetMinG       Decimal     @map("target_min_g") @db.Decimal(7, 1)
+  targetMaxG       Decimal     @map("target_max_g") @db.Decimal(7, 1)
+  gramsPerKgMin    Decimal     @map("grams_per_kg_min") @db.Decimal(5, 2)
+  gramsPerKgMax    Decimal     @map("grams_per_kg_max") @db.Decimal(5, 2)
+  reasonCiphertext Bytes       @map("reason_ciphertext")
+  version          Int
+  createdAt        DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([targetId, version])
+  @@map("fat_target_versions")
+}
+
 model AuditEvent {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz
-  requestId String @map("request_id")
-  actorUserId String? @map("actor_user_id") @db.Uuid
-  actorRole UserRole? @map("actor_role")
-  action String
-  resourceType String @map("resource_type")
-  resourceId String? @map("resource_id") @db.Uuid
-  clientId String? @map("client_id") @db.Uuid
-  decision AuditDecision
-  reasonCode String @map("reason_code")
-  ipHash String? @map("ip_hash")
-  userAgentHash String? @map("user_agent_hash")
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  occurredAt    DateTime      @default(now()) @map("occurred_at") @db.Timestamptz
+  requestId     String        @map("request_id")
+  actorUserId   String?       @map("actor_user_id") @db.Uuid
+  actorRole     UserRole?     @map("actor_role")
+  action        String
+  resourceType  String        @map("resource_type")
+  resourceId    String?       @map("resource_id") @db.Uuid
+  clientId      String?       @map("client_id") @db.Uuid
+  decision      AuditDecision
+  reasonCode    String        @map("reason_code")
+  ipHash        String?       @map("ip_hash")
+  userAgentHash String?       @map("user_agent_hash")
+
   @@map("audit_events")
+}
+
+model ProfessionalPriorityReview {
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId             String   @map("client_id") @db.Uuid
+  submissionId         String   @unique @map("submission_id") @db.Uuid
+  updatedBy            String   @map("updated_by") @db.Uuid
+  sourceHash           String   @map("source_hash")
+  selectedPriorityKeys Json     @map("selected_priority_keys")
+  reasonCiphertext     Bytes    @map("reason_ciphertext")
+  version              Int      @default(1)
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt            DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("professional_priority_reviews")
+}
+
+model ProfessionalPriorityReviewVersion {
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reviewId             String   @map("review_id") @db.Uuid
+  clientId             String   @map("client_id") @db.Uuid
+  submissionId         String   @map("submission_id") @db.Uuid
+  updatedBy            String   @map("updated_by") @db.Uuid
+  sourceHash           String   @map("source_hash")
+  selectedPriorityKeys Json     @map("selected_priority_keys")
+  reasonCiphertext     Bytes    @map("reason_ciphertext")
+  version              Int
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([reviewId,version])
+  @@map("professional_priority_review_versions")
+}
+
+model ProfessionalConclusionDraft {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @unique @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  sourceHash String @map("source_hash")
+  status String
+  payloadCiphertext Bytes @map("payload_ciphertext")
+  version Int @default(1)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz
+  @@map("professional_conclusion_drafts")
+}
+
+model ProfessionalConclusionDraftVersion {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  draftId String @map("draft_id") @db.Uuid
+  clientId String @map("client_id") @db.Uuid
+  submissionId String @map("submission_id") @db.Uuid
+  updatedBy String @map("updated_by") @db.Uuid
+  sourceHash String @map("source_hash")
+  status String
+  payloadCiphertext Bytes @map("payload_ciphertext")
+  version Int
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  @@unique([draftId,version])
+  @@map("professional_conclusion_draft_versions")
 }

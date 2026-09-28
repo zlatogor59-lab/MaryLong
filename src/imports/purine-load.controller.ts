@@ -1,0 +1,2 @@
+import{Controller,Get,Param}from'@nestjs/common';import type{AuthenticatedUser}from'../auth/auth.types';import{CurrentUser}from'../auth/current-user.decorator';import{PurineLoadService}from'./purine-load.service';
+@Controller('clients/:clientId/submissions/:submissionId/purine-load')export class PurineLoadController{constructor(private readonly service:PurineLoadService){}@Get()get(@Param('clientId')clientId:string,@Param('submissionId')submissionId:string,@CurrentUser()user:AuthenticatedUser){return this.service.get(submissionId,clientId,user);}}

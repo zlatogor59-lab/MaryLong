@@ -1,0 +1,11 @@
+import {describe,expect,it} from 'vitest';
+import {calculateProteinIntake,type ProductSnapshot} from './protein-intake.calculator';
+import {calculateProcessedMeat} from './processed-meat.calculator';
+
+const card=(id:string,name:string,code:string,protein:number,sfa:number):ProductSnapshot=>({id,name,proteinPer100g:protein,origin:'animal',plantSharePercent:0,sourceLabel:`CoFID 2021; ${code}`,sourceReference:'https://www.gov.uk/government/publications/composition-of-foods-integrated-dataset-cofid',version:1,saturatedFatPer100g:sfa});
+
+describe('processed meat calculator',()=>{
+  it('reports portions, frequency, group contribution and whole-meat comparator',()=>{const products=new Map([['ham',card('ham','Ветчина','19-496',18.4,1.1)],['salami',card('salami','Салями','19-517',20.9,14.6)],['chicken',card('chicken','Куриная грудка','18-323',32,.6)]]);const protein=calculateProteinIntake([{mealKey:'breakfast',productCardId:'ham',massG:50},{mealKey:'lunch',productCardId:'chicken',massG:100},{mealKey:'dinner',productCardId:'salami',massG:30}],products);const result=calculateProcessedMeat(protein.lines);expect(result.group).toMatchObject({mass_g:80,protein_g:15.47,saturated_fat_g:4.93,sodium_mg:859,episodes:2,meals:2});expect(result.whole_meat_comparator).toEqual({mass_g:100,episodes:1});expect(result.facts.map(x=>x.code)).toEqual(['GROUP_CONTRIBUTION','SODIUM_AND_SFA','REPEATED_EPISODES','WHOLE_MEAT_COMPARATOR']);expect(result.client_recommendations_generated).toBe(false);});
+  it('keeps an unrecognized animal product outside the group',()=>{const protein=calculateProteinIntake([{mealKey:'lunch',productCardId:'x',massG:100}],new Map([['x',card('x','Неизвестный продукт','99-999',20,5)]]));expect(calculateProcessedMeat(protein.lines)).toMatchObject({status:'not_present',group:{mass_g:0,protein_g:0,sodium_mg:0},completeness:{recognized_lines:0,processed_lines:0}});});
+  it('does not turn missing sodium into zero',()=>{const protein=calculateProteinIntake([{mealKey:'lunch',productCardId:'ham',massG:100}],new Map([['ham',card('ham','Ветчина','19-496',18.4,1.1)]]));const result=calculateProcessedMeat(protein.lines);expect(result.group.sodium_mg).toBe(800);expect(result.items[0].composition_facts).toContain('Добавленная вода 10–15%');});
+});
