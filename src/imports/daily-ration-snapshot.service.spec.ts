@@ -1,0 +1,14 @@
+import {describe,expect,it} from 'vitest';
+import type {AuthenticatedUser} from '../auth/auth.types';
+import {AuthorizationPolicy} from '../authorization/authorization.policy';
+import {DailyRationSnapshotService} from './daily-ration-snapshot.service';
+const user:AuthenticatedUser={id:'00000000-0000-4000-8000-000000000001',authSubject:'synthetic',role:'consultant',status:'active',sessionIssuedAt:new Date(),sessionRevokedAt:null};
+const clientId='00000000-0000-4000-8000-000000000099',submissionId='00000000-0000-4000-8000-000000000020';
+const assessment={id:'00000000-0000-4000-8000-000000000040',clientId,submissionId,updatedBy:user.id,payloadCiphertext:new Uint8Array([1]),totalProteinG:40,plantProteinG:10,animalProteinG:30,completenessPercent:100,version:3,updatedAt:new Date('2026-09-28T10:00:00Z')};
+function setup(options:{assigned?:string|null;assessment?:boolean;capture?:boolean}={}){const captured:any[]=[];const service=new DailyRationSnapshotService({findById:async()=>({id:submissionId,clientId,status:'accepted'})} as never,{activeConsultant:async()=>options.assigned===undefined?user.id:options.assigned} as never,new AuthorizationPolicy(),{findBySubmission:async()=>options.assessment===false?null:assessment} as never,{list:async()=>captured,capture:async(a:any,d:string,by:string)=>{if(options.capture===false)return null;const value={id:'00000000-0000-4000-8000-000000000050',clientId,submissionId,assessmentId:a.id,intakeVersion:a.version,rationDate:d,capturedBy:by,totalProteinG:a.totalProteinG,plantProteinG:a.plantProteinG,animalProteinG:a.animalProteinG,completenessPercent:a.completenessPercent,createdAt:new Date('2026-09-29T10:00:00Z')};captured.push(value);return value;}} as never);return service;}
+describe('daily ration snapshots',()=>{
+  it('captures a dated immutable view of the current intake version',async()=>{await expect(setup().capture(submissionId,clientId,user,'req','2026-09-28')).resolves.toMatchObject({ration_date:'2026-09-28',source_intake_version:3,summary:{total_protein_g:40,completeness_percent:100}});});
+  it('rejects invalid and future dates',async()=>{await expect(setup().capture(submissionId,clientId,user,'req','2026-02-30')).rejects.toThrow('RATION_DATE_INVALID');await expect(setup().capture(submissionId,clientId,user,'req','2999-01-01')).rejects.toThrow('RATION_DATE_IN_FUTURE');});
+  it('requires an assessment and refuses duplicate dates or versions',async()=>{await expect(setup({assessment:false}).capture(submissionId,clientId,user,'req','2026-09-28')).rejects.toThrow('RATION_INTAKE_REQUIRED');await expect(setup({capture:false}).capture(submissionId,clientId,user,'req','2026-09-28')).rejects.toThrow('RATION_SNAPSHOT_ALREADY_EXISTS');});
+  it('masks the resource when the consultant is not assigned',async()=>{await expect(setup({assigned:null}).list(submissionId,clientId,user)).rejects.toThrow('RESOURCE_UNAVAILABLE');});
+});

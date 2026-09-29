@@ -1,0 +1,15 @@
+import {Injectable} from '@nestjs/common';
+import {PrismaService} from '../database/prisma.service';
+import type {ProteinIntakeRecord} from './protein-intake.repository';
+
+export type DailyRationSnapshotRecord={id:string;clientId:string;submissionId:string;assessmentId:string;intakeVersion:number;rationDate:string;capturedBy:string;totalProteinG:number;plantProteinG:number;animalProteinG:number;completenessPercent:number;createdAt:Date};
+type Row={id:string;client_id:string;submission_id:string;assessment_id:string;intake_version:number;ration_date:Date|string;captured_by:string;total_protein_g:unknown;plant_protein_g:unknown;animal_protein_g:unknown;completeness_percent:number;created_at:Date};
+const date=(value:Date|string)=>typeof value==='string'?value.slice(0,10):value.toISOString().slice(0,10);
+const map=(row:Row):DailyRationSnapshotRecord=>({id:row.id,clientId:row.client_id,submissionId:row.submission_id,assessmentId:row.assessment_id,intakeVersion:row.intake_version,rationDate:date(row.ration_date),capturedBy:row.captured_by,totalProteinG:Number(row.total_protein_g),plantProteinG:Number(row.plant_protein_g),animalProteinG:Number(row.animal_protein_g),completenessPercent:row.completeness_percent,createdAt:row.created_at});
+
+@Injectable()
+export class DailyRationSnapshotRepository{
+  constructor(private readonly prisma:PrismaService){}
+  async list(submissionId:string){const rows=await this.prisma.$queryRaw<Row[]>`SELECT id,client_id,submission_id,assessment_id,intake_version,ration_date,captured_by,total_protein_g,plant_protein_g,animal_protein_g,completeness_percent,created_at FROM daily_ration_snapshots WHERE submission_id=${submissionId}::uuid ORDER BY ration_date DESC LIMIT 31`;return rows.map(map);}
+  async capture(assessment:ProteinIntakeRecord,rationDate:string,capturedBy:string,requestId:string){return this.prisma.$transaction(async tx=>{const rows=await tx.$queryRaw<Row[]>`INSERT INTO daily_ration_snapshots(client_id,submission_id,assessment_id,intake_version,ration_date,captured_by,payload_ciphertext,total_protein_g,plant_protein_g,animal_protein_g,completeness_percent) VALUES(${assessment.clientId}::uuid,${assessment.submissionId}::uuid,${assessment.id}::uuid,${assessment.version},${rationDate}::date,${capturedBy}::uuid,${Buffer.from(assessment.payloadCiphertext)},${assessment.totalProteinG},${assessment.plantProteinG},${assessment.animalProteinG},${assessment.completenessPercent}) ON CONFLICT DO NOTHING RETURNING id,client_id,submission_id,assessment_id,intake_version,ration_date,captured_by,total_protein_g,plant_protein_g,animal_protein_g,completeness_percent,created_at`;if(!rows[0])return null;const snapshot=map(rows[0]);await tx.$executeRaw`INSERT INTO audit_events(request_id,actor_user_id,actor_role,action,resource_type,resource_id,client_id,decision,reason_code) VALUES(${requestId},${capturedBy}::uuid,'consultant','daily_ration_snapshot.capture','daily_ration_snapshot',${snapshot.id}::uuid,${snapshot.clientId}::uuid,'SUCCESS','DAILY_RATION_SNAPSHOT_CAPTURED')`;return snapshot;},{maxWait:5_000});}
+}

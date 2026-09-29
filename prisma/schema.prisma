@@ -470,6 +470,27 @@ model ProteinIntakeAssessmentVersion {
   @@map("protein_intake_assessment_versions")
 }
 
+model DailyRationSnapshot {
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId            String   @map("client_id") @db.Uuid
+  submissionId        String   @map("submission_id") @db.Uuid
+  assessmentId        String   @map("assessment_id") @db.Uuid
+  intakeVersion       Int      @map("intake_version")
+  rationDate          DateTime @map("ration_date") @db.Date
+  capturedBy          String   @map("captured_by") @db.Uuid
+  payloadCiphertext   Bytes    @map("payload_ciphertext")
+  totalProteinG       Decimal  @map("total_protein_g") @db.Decimal(8, 2)
+  plantProteinG       Decimal  @map("plant_protein_g") @db.Decimal(8, 2)
+  animalProteinG      Decimal  @map("animal_protein_g") @db.Decimal(8, 2)
+  completenessPercent Int      @map("completeness_percent")
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@unique([submissionId, rationDate])
+  @@unique([assessmentId, intakeVersion])
+  @@index([clientId, rationDate])
+  @@map("daily_ration_snapshots")
+}
+
 model FatTarget {
   id               String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   clientId         String      @map("client_id") @db.Uuid
